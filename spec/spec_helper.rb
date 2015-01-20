@@ -1,6 +1,8 @@
 require 'chefspec'
 require 'chefspec/berkshelf'
 
+require 'rundeck'
+
 RSpec.configure do |config|
   config.platform = 'centos'
   config.version  = '6.5'
