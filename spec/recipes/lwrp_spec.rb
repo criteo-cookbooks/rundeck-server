@@ -1,6 +1,8 @@
 require_relative '../spec_helper'
 
 describe 'rundeck-test::default' do
+  mock_web_xml
+
   let(:chef_run) { ChefSpec::SoloRunner.new(
     step_into: ['rundeck_server_project']
   ).converge(described_recipe) }

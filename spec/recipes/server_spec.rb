@@ -1,6 +1,8 @@
 require_relative '../spec_helper'
 
 describe 'rundeck-server' do
+  mock_web_xml 'wrong_user'
+
   let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
   it 'download winrm plugin' do
@@ -26,9 +28,15 @@ describe 'rundeck-server' do
     expect(chef_run).to render_file('rundeck-aclpolicy-admin')
       .with_content(/- allow: ['"]\*['"]/)
   end
+
+  it 'configure security role' do
+    expect(chef_run).to run_ruby_block('rundeck-security-role')
+  end
 end
 
 describe 'rundeck-server' do
+  mock_web_xml
+
   let(:chef_run) do
     ChefSpec::SoloRunner.new do |node|
       node.set['rundeck_server']['plugins']['winrm']['checksum'] =
@@ -40,5 +48,9 @@ describe 'rundeck-server' do
     expect(chef_run).to create_remote_file('winrm')
       .with_path('/var/lib/rundeck/libext/winrm.jar')
       .with_checksum('54500ae1db500f7be2e0468d6f464c1f7f28c5aa4c7c2e7f0cb3a5cfa0386824')
+  end
+
+  it 'does not configure security role' do
+    expect(chef_run).to_not run_ruby_block('rundeck-security-role')
   end
 end
