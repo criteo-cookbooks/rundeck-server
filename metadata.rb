@@ -8,7 +8,6 @@ version          '0.1.0'
 
 depends          'yum'
 depends          'java'
-depends          'augeas'
 
 suggests         'rundeck-bridge'
 suggests         'rundeck-node'

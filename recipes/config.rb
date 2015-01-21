@@ -3,7 +3,6 @@
 #
 
 include_recipe 'java'
-include_recipe 'augeas::geminstall'
 
 # Configure yum repo if specified
 yum_repository 'rundeck' do
@@ -64,10 +63,26 @@ end
 
 # security-role/role-name workaround
 # https://github.com/rundeck/rundeck/wiki/Faq#i-get-an-error-logging-in-http-error-403--reason-role
-augeas 'rundeck-security-role' do
-  changes  "set /files/#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/web.xml/web-app/security-role/role-name/#text #{node['rundeck_server']['rolename']}"
-  lens     'xml.lns'
-  incl     "#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/web.xml"
+require 'rexml/document'
+web_xml = "#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/web.xml"
+
+ruby_block 'rundeck-security-role' do
+  block do
+    ::File.open(web_xml, 'r+') do |file|
+      doc = REXML::Document.new(file)
+      doc.elements.to_a(
+        'web-app/security-role/role-name'
+      ).first.text = node['rundeck_server']['rolename']
+      # Go to the beginning of file
+      file.rewind
+      doc.write(file)
+    end
+  end
+  not_if do
+    REXML::Document.new(::File.new(web_xml)).elements.to_a(
+      'web-app/security-role/role-name'
+    ).first.text == node['rundeck_server']['rolename']
+  end
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
