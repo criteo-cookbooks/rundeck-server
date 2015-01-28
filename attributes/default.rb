@@ -87,3 +87,20 @@ default['rundeck_server']['aclpolicy']['admin'] = [{
     group:    ['admin'],
   },
 }]
+
+default['rundeck_server']['rundeck-config.framework']['framework.server.name']      = 'localhost'
+default['rundeck_server']['rundeck-config.framework']['framework.server.hostname']  = 'localhost'
+default['rundeck_server']['rundeck-config.framework']['framework.server.port']      = 4440
+default['rundeck_server']['rundeck-config.framework']['framework.server.url']       = 'http://localhost:4440'
+default['rundeck_server']['rundeck-config.framework']['framework.server.username']  = 'admin'
+default['rundeck_server']['rundeck-config.framework']['framework.server.password']  = 'admin'
+default['rundeck_server']['rundeck-config.framework']['rdeck.base']                 = '/var/lib/rundeck'
+default['rundeck_server']['rundeck-config.framework']['framework.projects.dir']     = '/var/rundeck/projects'
+default['rundeck_server']['rundeck-config.framework']['framework.etc.dir']          = '/etc/rundeck'
+default['rundeck_server']['rundeck-config.framework']['framework.var.dir']          = '/var/lib/rundeck/var'
+default['rundeck_server']['rundeck-config.framework']['framework.tmp.dir']          = '/var/lib/rundeck/var/tmp'
+default['rundeck_server']['rundeck-config.framework']['framework.logs.dir']         = '/var/lib/rundeck/logs'
+default['rundeck_server']['rundeck-config.framework']['framework.libext.dir']       = '/var/lib/rundeck/libext'
+default['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']      = '/var/lib/rundeck/.ssh/id_rsa'
+default['rundeck_server']['rundeck-config.framework']['framework.ssh.user']         = 'rundeck'
+default['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']      = 0

@@ -91,3 +91,11 @@ template ::File.join(node['rundeck_server']['confdir'], 'profile') do
   mode '0644'
   notifies :restart, 'service[rundeckd]', :delayed
 end
+
+template ::File.join(node['rundeck_server']['confdir'], 'framework.properties') do
+  owner 'rundeck'
+  group 'rundeck'
+  mode '0644'
+  variables(properties: node['rundeck_server']['rundeck-config.framework'])
+  notifies :restart, 'service[rundeckd]'
+end
