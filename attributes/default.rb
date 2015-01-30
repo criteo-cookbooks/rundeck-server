@@ -17,6 +17,9 @@ default['rundeck_server']['port']['default'] = node['rundeck_server']['port']['h
 # https://github.com/rundeck/rundeck/wiki/Faq#i-get-an-error-logging-in-http-error-403--reason-role
 default['rundeck_server']['rolename'] = 'user'
 
+# session timeout in the UI (in minutes)
+default['rundeck_server']['session_timeout'] = 30
+
 # Repository containing the rundeck package
 default['rundeck_server']['repo'] = 'http://dl.bintray.com/rundeck/rundeck-rpm/'
 
