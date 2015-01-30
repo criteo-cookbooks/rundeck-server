@@ -71,7 +71,7 @@ web_xml_update = {
   'web-app/session-config/session-timeout' => node['rundeck_server']['session_timeout'],
 }
 
-ruby_block 'web-xml-update' do
+ruby_block 'web-xml-update' do #~FC022
   block do
     ::File.open(web_xml, 'r+') do |file|
       doc = REXML::Document.new(file)
