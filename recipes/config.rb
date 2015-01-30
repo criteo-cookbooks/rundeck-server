@@ -66,22 +66,28 @@ end
 require 'rexml/document'
 web_xml = "#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/web.xml"
 
-ruby_block 'rundeck-security-role' do
+web_xml_update = {
+  'web-app/security-role/role-name'        => node['rundeck_server']['rolename'],
+  'web-app/session-config/session-timeout' => node['rundeck_server']['session_timeout'],
+}
+
+ruby_block 'web-xml-update' do
   block do
     ::File.open(web_xml, 'r+') do |file|
       doc = REXML::Document.new(file)
-      doc.elements.to_a(
-        'web-app/security-role/role-name'
-      ).first.text = node['rundeck_server']['rolename']
+      web_xml_update.each do |xpath, text|
+        doc.elements.to_a(xpath).first.text = text
+      end
       # Go to the beginning of file
       file.rewind
       doc.write(file)
     end
   end
   not_if do
-    REXML::Document.new(::File.new(web_xml)).elements.to_a(
-      'web-app/security-role/role-name'
-    ).first.text == node['rundeck_server']['rolename']
+    elements = REXML::Document.new(::File.new(web_xml)).elements
+    web_xml_update.all? do |xpath, text|
+      elements.to_a(xpath).first.text == text.to_s
+    end
   end
   notifies :restart, 'service[rundeckd]', :delayed
 end

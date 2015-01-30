@@ -29,8 +29,8 @@ describe 'rundeck-server' do
       .with_content(/- allow: ['"]\*['"]/)
   end
 
-  it 'configure security role' do
-    expect(chef_run).to run_ruby_block('rundeck-security-role')
+  it 'configure web.xml' do
+    expect(chef_run).to run_ruby_block('web-xml-update')
   end
 end
 
@@ -50,7 +50,7 @@ describe 'rundeck-server' do
       .with_checksum('54500ae1db500f7be2e0468d6f464c1f7f28c5aa4c7c2e7f0cb3a5cfa0386824')
   end
 
-  it 'does not configure security role' do
-    expect(chef_run).to_not run_ruby_block('rundeck-security-role')
+  it 'does not configure web.xml' do
+    expect(chef_run).to_not run_ruby_block('web-xml-update')
   end
 end
