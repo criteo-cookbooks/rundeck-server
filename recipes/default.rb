@@ -11,9 +11,7 @@ service 'rundeckd' do
   action   [:enable, :start]
 end
 
-# Install build essential at compile time for gem compilation
-include_recipe 'build-essential'
-include_recipe 'libxml2'
-
 # Install rundeck gem for API communication
-chef_gem 'rundeck'
+chef_gem 'rundeck' do
+  version '> 1.0.2'
+end

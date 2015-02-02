@@ -107,6 +107,3 @@ default['rundeck_server']['rundeck-config.framework']['framework.libext.dir']   
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']      = '/var/lib/rundeck/.ssh/id_rsa'
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.user']         = 'rundeck'
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']      = 0
-
-default['build-essential']['compile_time'] = true
-default['libxml2']['compile_time'] = true
