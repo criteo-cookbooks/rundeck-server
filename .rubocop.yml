@@ -1,0 +1,6 @@
+TrailingComma:
+  EnforcedStyleForMultiline: comma
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+LineLength:
+  Enabled: false
