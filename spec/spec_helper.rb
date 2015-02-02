@@ -10,9 +10,9 @@ end
 
 def mock_web_xml(role_name = 'user', timeout = 30)
   before(:each) do
-    allow(::File).to receive(:new).with(
-      '/var/lib/rundeck/exp/webapp/WEB-INF/web.xml'
-    ).and_return(<<XML)
+    allow(::File).to receive(:new)
+      .with('/var/lib/rundeck/exp/webapp/WEB-INF/web.xml')
+      .and_return(<<XML)
 <web-app>
   <security-role>
     <role-name>#{role_name}</role-name>
