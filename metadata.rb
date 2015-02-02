@@ -9,6 +9,7 @@ version          '0.2.0'
 depends          'yum'
 depends          'java'
 depends          'build-essential'
+depends          'libxml2'
 
 suggests         'rundeck-bridge'
 suggests         'rundeck-node'

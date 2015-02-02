@@ -8,6 +8,9 @@ gem 'rake'
 
 gem 'rundeck'
 
+gem 'test-kitchen'
+gem "kitchen-vagrant"
+
 platforms :mri_19 do
   gem 'ohai', '~> 7.4.0'
 end
