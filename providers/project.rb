@@ -1,7 +1,6 @@
 use_inline_resources
 
 action :create do
-
   %w(etc var).each do |d|
     directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, d) do
       user  'rundeck'
@@ -24,13 +23,13 @@ action :create do
         provider: 'jsch-ssh',
         config: {
           'ssh-authentication'  => 'privateKey',
-          'ssh-keypath'         => "#{node['rundeck_server']['basedir']}/.ssh/id_rsa"
-        }
+          'ssh-keypath'         => "#{node['rundeck_server']['basedir']}/.ssh/id_rsa",
+        },
       }
     when :winrm
-      fail "WinRM template not yet supported"
+      fail 'WinRM template not yet supported'
     else
-      fail "Unknown executor template: #{new_resource.executor.to_s}"
+      fail "Unknown executor template: #{new_resource.executor}"
     end
   end
 
@@ -40,21 +39,20 @@ action :create do
   end
 
   new_resource.sources.each_with_index do |source, i|
-    source.each do |k,v|
-      properties["resources.source.#{i+1}.#{k}"] = v
+    source.each do |k, v|
+      properties["resources.source.#{i + 1}.#{k}"] = v
     end
   end
   properties['service.FileCopier.default.provider'] = 'jsch-scp'
 
   template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'project.properties') do
-    source 'properties.erb'
-    user  'rundeck'
-    group 'rundeck'
-    mode '0660'
+    source   'properties.erb'
+    user     'rundeck'
+    group    'rundeck'
+    mode     '0660'
     cookbook new_resource.cookbook
     variables(properties:  properties)
   end
-
 end
 
 action :delete do

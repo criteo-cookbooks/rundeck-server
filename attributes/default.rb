@@ -108,6 +108,5 @@ default['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']  
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.user']         = 'rundeck'
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']      = 0
 
-
 default['build-essential']['compile_time'] = true
 default['libxml2']['compile_time'] = true
