@@ -13,11 +13,11 @@ def stringify(h)
   case h
   when Hash
     h.inject({}) do |memo,(k,v)|
-      memo[k.to_s] = stringify(v)
+      memo[k.to_s] = stringify v
       memo
     end
   when Array
-    h.map { |el| stringify(el) }
+    h.map { |el| stringify el }
   else
     h
   end
@@ -29,23 +29,31 @@ action :create do
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
 
-  job = find_job(client, @current_resource.project, @current_resource.name)
-  updated_job = stringify(@new_resource.config.dup)
-  updated_job['uuid'] = job['uuid'] if job
+  job = find_job client, @current_resource.project, @current_resource.name
+
+  updated_job = stringify @new_resource.config.dup
+
+  # hydrate updated_job
+  updated_job['name']    ||= @current_resource.name
+  updated_job['project'] ||= @current_resource.project
+  updated_job['uuid']    ||= job['uuid'] if job
+
+  tweak_existing job if job
 
   action_name = 'create'
   action_name = 'update' if job
 
-  if job.nil? || job.to_hash != updated_job
-    # hydrate updated_job
-    updated_job['name'] = @current_resource.name
-    updated_job['project'] = @current_resource.project
+  if job.nil? || !equal(job, updated_job)
+    Chef::Log.debug("before: " + job.inspect)
+    Chef::Log.debug("after: " + updated_job.inspect)
 
     # yamlize update_job
     job_yaml = [updated_job].to_yaml.gsub(/^---\n/, '')
 
     converge_by "#{action_name} job #{@current_resource.project}/#{@current_resource.name}" do
-      client.import_jobs(job_yaml, 'yaml', opts)
+      response = client.import_jobs(job_yaml, 'yaml', opts)
+      Chef::Log.debug("Result: " + response.inspect)
+      raise "Error while updating job! Response: #{response.inspect}" if (response.to_h['failed']['count'].to_i > 0)
     end
   end
 end
@@ -74,8 +82,19 @@ def find_job(client, project, name)
 end
 
 # default options for rundeck api
+# dupeOption allow us to update jobs (default is create, which fails)
 def opts
-  { verify: false }
+  { verify: false , query: { dupeOption: 'update'}}
+end
+
+# hash equality with clearer diff
+def equal(h1, h2)
+  (h1.keys + h2.keys).uniq.all? do |k|
+    if h1[k] != h2[k]
+      Chef::Log.debug("key: #{k}, before: #{h1[k].inspect}, after: #{h2[k].inspect}")
+    end
+    h1[k] == h2[k]
+  end
 end
 
 def find_job_id(client, project, name)
@@ -91,4 +110,25 @@ def find_job_id(client, project, name)
           jobs
         end
   job['id'] if job
+end
+
+def tweak_existing(job)
+
+  # we need to specify uuid, not id to be able to update
+  job.delete('id')
+
+  # rundeck gem returns project in context instead of directly project
+  # which is required to create job
+  context = job.delete('context')
+  job['project'] = context['project'] if context
+
+  if job['sequence']
+    # rundeck gem does not type boolean properly
+    job['sequence']['keepgoing'] = job['sequence']['keepgoing'] == 'true' if !job['sequence']['keepgoing'].nil?
+
+    # when single command, we need this
+    job['sequence']['commands'] ||= [ job['sequence'].delete('command') ]
+  end
+
+  job
 end
