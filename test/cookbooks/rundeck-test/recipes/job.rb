@@ -1,13 +1,12 @@
 rundeck_server_job 'test-job' do
   project 'project'
   api_token 'random_token'
-  config({
+  config(
     description: '',
     loglevel: 'INFO',
-    sequence: { 
+    sequence: {
       commands: [
-        exec: 'a command'
-      ]
-    }
-  })
+        exec: 'a command',
+      ],
+    })
 end
