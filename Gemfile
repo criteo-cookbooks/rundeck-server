@@ -9,7 +9,7 @@ gem 'rake'
 gem 'test-kitchen'
 gem 'kitchen-vagrant'
 
-gem 'rundeck'
+gem 'rundeck', '>= 1.1.0'
 
 platforms :mri_19 do
   gem 'ohai', '~> 7.4.0'
