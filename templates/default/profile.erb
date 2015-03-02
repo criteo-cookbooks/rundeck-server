@@ -4,7 +4,6 @@
 RDECK_HTTP_PORT=<%= node['rundeck_server']['port']['http'] %>
 RDECK_HTTPS_PORT=<%= node['rundeck_server']['port']['https'] %>
 
-#
 # If JAVA_HOME is set, then add it to home and set JAVA_CMD to use the version specified in that
 # path.  JAVA_HOME can be set in the rundeck profile.  Or set in this file.
 #JAVA_HOME=<path/to/JDK or JRE/install>
@@ -15,21 +14,15 @@ if [ ! -z $JAVA_HOME ]; then
 	JAVA_CMD=${JAVA_HOME}/bin/java
 fi
 
-
-
 export CLI_CP=$(find <%= node['rundeck_server']['basedir'] %>/cli -name \*.jar -printf %p:)
 export BOOTSTRAP_CP=$(find <%= node['rundeck_server']['basedir'] %>/bootstrap -name \*.jar -printf %p:)
-export RDECK_JVM="<%= node['rundeck_server']['rdeck_jvm'].sort.map { |k,v| "-D#{k}=#{v}" }.join(" \\\n") %>"
-#
-# Set min/max heap size
-#
-RDECK_JVM="${RDECK_JVM} -Xmx1024m -Xms256m -XX:MaxPermSize=256m -server"
-#
-# SSL Configuration - Uncomment the following to enable.  Check SSL.properties for details.
-#
-#export RDECK_JVM="${RDECK_JVM} -Drundeck.ssl.config=/etc/rundeck/ssl/ssl.properties -Dserver.https.port=${RDECK_HTTPS_PORT}"
 
-export RDECK_SSL_OPTS="-Djavax.net.ssl.trustStore=/etc/rundeck/ssl/truststore -Djavax.net.ssl.trustStoreType=jks -Djava.protocol.handler.pkgs=com.sun.net.ssl.internal.www.protocol"
+export RDECK_JVM=" \
+<%- node['rundeck_server']['jvm'].sort.each do |key, value| -%>
+<%- if value -%>
+  <%= "-#{key}" %><%= "=#{value}" if value.is_a? String %> \
+<%- end -%>
+<%- end -%>"
 
 if test -t 0 -a -z "${RUNDECK_CLI_TERSE}"
 then
