@@ -32,6 +32,11 @@ describe 'rundeck-server' do
   it 'configure web.xml' do
     expect(chef_run).to run_ruby_block('web-xml-update')
   end
+
+  it 'check JVM options' do
+    expect(chef_run).to render_file('rundeck-profile')
+      .with_content('-XX:MaxPermSize=256m')
+  end
 end
 
 describe 'rundeck-server' do
@@ -41,6 +46,7 @@ describe 'rundeck-server' do
     ChefSpec::SoloRunner.new do |node|
       node.set['rundeck_server']['plugins']['winrm']['checksum'] =
         '54500ae1db500f7be2e0468d6f464c1f7f28c5aa4c7c2e7f0cb3a5cfa0386824'
+      node.set['rundeck_server']['jvm']['Xmx1024m'] = false
     end.converge(described_recipe)
   end
 
@@ -52,5 +58,11 @@ describe 'rundeck-server' do
 
   it 'does not configure web.xml' do
     expect(chef_run).to_not run_ruby_block('web-xml-update')
+  end
+
+  it 'disable JVM options when set to false' do
+    expect(chef_run).to render_file('rundeck-profile')
+    expect(chef_run).not_to render_file('rundeck-profile')
+      .with_content('-Xmx1024m')
   end
 end

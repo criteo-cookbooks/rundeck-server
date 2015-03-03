@@ -71,7 +71,7 @@ web_xml_update = {
   'web-app/session-config/session-timeout' => node['rundeck_server']['session_timeout'],
 }
 
-ruby_block 'web-xml-update' do #~FC022
+ruby_block 'web-xml-update' do # ~FC022
   block do
     ::File.open(web_xml, 'r+') do |file|
       doc = REXML::Document.new(file)
@@ -92,13 +92,21 @@ ruby_block 'web-xml-update' do #~FC022
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
-template ::File.join(node['rundeck_server']['confdir'], 'profile') do
+template 'rundeck-profile' do
+  path     ::File.join(node['rundeck_server']['confdir'], 'profile')
   source   'profile.erb'
+  owner    'rundeck'
+  group    'rundeck'
   mode     '0644'
+  variables(http_port:  node['rundeck_server']['port']['http'],
+            https_port: node['rundeck_server']['port']['https'],
+            basedir:    node['rundeck_server']['basedir'],
+            jvm:        node['rundeck_server']['jvm'])
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
-template ::File.join(node['rundeck_server']['confdir'], 'framework.properties') do
+template 'rundeck-framework-properties' do
+  path     ::File.join(node['rundeck_server']['confdir'], 'framework.properties')
   source   'properties.erb'
   owner    'rundeck'
   group    'rundeck'
