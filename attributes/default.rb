@@ -53,6 +53,10 @@ default['rundeck_server']['jvm']['Xmx1024m']       = true
 default['rundeck_server']['jvm']['Xms256m']        = true
 default['rundeck_server']['jvm']['server']         = true
 
+# Quartz job threadCount
+# http://rundeck.org/docs/administration/tuning-rundeck.html#quartz-job-threadcount
+default['rundeck_server']['threadcount'] = 10
+
 # The JAAS login configuration file with one entry and multiple modules may be
 # generated from this attribute. Check out Oracle JAAS documentation at:
 # http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html
