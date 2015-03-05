@@ -107,10 +107,8 @@ template 'rundeck-profile' do
   owner    'rundeck'
   group    'rundeck'
   mode     '0644'
-  variables(http_port:  node['rundeck_server']['port']['http'],
-            https_port: node['rundeck_server']['port']['https'],
-            basedir:    node['rundeck_server']['basedir'],
-            jvm:        node['rundeck_server']['jvm'])
+  variables(basedir: node['rundeck_server']['basedir'],
+            jvm:     node['rundeck_server']['jvm'])
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
