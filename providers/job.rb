@@ -107,7 +107,7 @@ def find_job_id(client, project, name)
           fail "Several jobs exist with name #{name}, unable to choose" unless matching_jobs.size < 2
           matching_jobs.first
         when Hash # one job
-          jobs
+          jobs['name'] == name ? jobs : nil
         end
   job['id'] if job
 end
