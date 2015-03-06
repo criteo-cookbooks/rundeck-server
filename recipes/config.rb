@@ -55,10 +55,19 @@ end
 
 # Configure hostname
 template ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properties') do
-  source 'properties.erb'
-  mode '0644'
+  source   'properties.erb'
+  mode     '0644'
   notifies :restart, 'service[rundeckd]', :delayed
   variables(properties: node['rundeck_server']['rundeck-config.properties'])
+end
+
+# Configure thread pool
+file 'rundeck-quartz-properties' do
+  path    "#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/classes/quartz.properties"
+  content "org.quartz.threadPool.threadCount = #{node['rundeck_server']['threadcount']}\n"
+  owner   'rundeck'
+  group   'rundeck'
+  mode    '0644'
 end
 
 # security-role/role-name workaround
@@ -71,7 +80,7 @@ web_xml_update = {
   'web-app/session-config/session-timeout' => node['rundeck_server']['session_timeout'],
 }
 
-ruby_block 'web-xml-update' do #~FC022
+ruby_block 'web-xml-update' do # ~FC022
   block do
     ::File.open(web_xml, 'r+') do |file|
       doc = REXML::Document.new(file)
@@ -92,13 +101,19 @@ ruby_block 'web-xml-update' do #~FC022
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
-template ::File.join(node['rundeck_server']['confdir'], 'profile') do
+template 'rundeck-profile' do
+  path     ::File.join(node['rundeck_server']['confdir'], 'profile')
   source   'profile.erb'
+  owner    'rundeck'
+  group    'rundeck'
   mode     '0644'
+  variables(basedir: node['rundeck_server']['basedir'],
+            jvm:     node['rundeck_server']['jvm'])
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
-template ::File.join(node['rundeck_server']['confdir'], 'framework.properties') do
+template 'rundeck-framework-properties' do
+  path     ::File.join(node['rundeck_server']['confdir'], 'framework.properties')
   source   'properties.erb'
   owner    'rundeck'
   group    'rundeck'
