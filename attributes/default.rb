@@ -8,20 +8,20 @@ default['rundeck_server']['confdir'] = '/etc/rundeck'
 default['rundeck_server']['basedir'] = '/var/lib/rundeck'
 default['rundeck_server']['datadir'] = '/var/rundeck'
 
-# Default security-role/role-name allowed to authenticate
-# https://github.com/rundeck/rundeck/wiki/Faq#i-get-an-error-logging-in-http-error-403--reason-role
+#<> Default security-role/role-name allowed to authenticate
 default['rundeck_server']['rolename'] = 'user'
+# see https://github.com/rundeck/rundeck/wiki/Faq#i-get-an-error-logging-in-http-error-403--reason-role for more information
 
-# session timeout in the UI (in minutes)
+#<> session timeout in the UI (in minutes)
 default['rundeck_server']['session_timeout'] = 30
 
-# Repository containing the rundeck package
+#<> Repository containing the rundeck package
 default['rundeck_server']['repo'] = 'http://dl.bintray.com/rundeck/rundeck-rpm/'
 
-# Plugin list to install
+#<> Plugin list to install. Type is { 'pluginname' => { 'url' => URL } }
 default['rundeck_server']['plugins']['winrm']['url'] = 'https://github.com/rundeck-plugins/rundeck-winrm-plugin/releases/download/v1.2/rundeck-winrm-plugin-1.2.jar'
 
-# JVM configuration
+#JVM configuration
 #
 # Option mapping rules
 # ['key'] = 'string' maps to -key=string
@@ -32,12 +32,17 @@ default['rundeck_server']['jvm']['Dloginmodule.name']                = 'RDproper
 default['rundeck_server']['jvm']['Drdeck.config']                    = node['rundeck_server']['confdir']
 default['rundeck_server']['jvm']['Drundeck.server.configDir']        = node['rundeck_server']['confdir']
 default['rundeck_server']['jvm']['Drundeck.server.serverDir']        = node['rundeck_server']['basedir']
-default['rundeck_server']['jvm']['Drdeck.base']                      = node['rundeck_server']['basedir'] # Default is the directory containing the launcher jar
-default['rundeck_server']['jvm']['Dserver.http.host']                = '0.0.0.0'                         # Address/hostname to listen on, default is "0.0.0.0"
-default['rundeck_server']['jvm']['Dserver.http.port']                = '4440'                            # The HTTP port to use for the server, default "4440"
-default['rundeck_server']['jvm']['Dserver.https.port']               = '4443'                            # The HTTPS port to use or the server, default "4443"
+# Default is the directory containing the launcher jar
+default['rundeck_server']['jvm']['Drdeck.base']                      = node['rundeck_server']['basedir']
+#<> Address/hostname to listen on
+default['rundeck_server']['jvm']['Dserver.http.host']                = '0.0.0.0'
+#<> The HTTP port to use for the server
+default['rundeck_server']['jvm']['Dserver.http.port']                = '4440'
+#<> The HTTPS port to use or the server
+default['rundeck_server']['jvm']['Dserver.https.port']               = '4443'
 default['rundeck_server']['jvm']['Djava.io.tmpdir']                  = ::File.join('tmp', 'rundeck')
-default['rundeck_server']['jvm']['Dserver.datastore.path']           = ::File.join(node['rundeck_server']['basedir'], 'data') # Path to server datastore dir
+#<> Path to server datastore dir
+default['rundeck_server']['jvm']['Dserver.datastore.path']           = ::File.join(node['rundeck_server']['basedir'], 'data')
 default['rundeck_server']['jvm']['Djava.security.auth.login.config'] = ::File.join(node['rundeck_server']['confdir'], 'jaas-loginmodule.conf')
 default['rundeck_server']['jvm']['Drdeck.projects']                  = ::File.join(node['rundeck_server']['datadir'], 'projects')
 default['rundeck_server']['jvm']['Drdeck.runlogs']                   = ::File.join(node['rundeck_server']['basedir'], 'logs')
@@ -48,9 +53,9 @@ default['rundeck_server']['jvm']['Xmx1024m']       = true
 default['rundeck_server']['jvm']['Xms256m']        = true
 default['rundeck_server']['jvm']['server']         = true
 
-# Quartz job threadCount
-# http://rundeck.org/docs/administration/tuning-rundeck.html#quartz-job-threadcount
+#<> Quartz job threadCount
 default['rundeck_server']['threadcount'] = 10
+# see http://rundeck.org/docs/administration/tuning-rundeck.html#quartz-job-threadcount
 
 # rundeck-config.properties configuration
 default['rundeck_server']['rundeck-config.properties']['loglevel.default'] = 'INFO'
@@ -76,9 +81,7 @@ default['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']  
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.user']         = 'rundeck'
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']      = 0
 
-# The JAAS login configuration file with one entry and multiple modules may be
-# generated from this attribute. Check out Oracle JAAS documentation at:
-# http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html
+#<> The JAAS login configuration file with one entry and multiple modules may be generated from this attribute.
 default['rundeck_server']['jaas'] = [{
   module:  'org.eclipse.jetty.plus.jaas.spi.PropertyFileLoginModule',
   flag:    'required',
@@ -87,9 +90,9 @@ default['rundeck_server']['jaas'] = [{
     file:  '/etc/rundeck/realm.properties',
   },
 }]
+# see http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html
 
-# The admin ACL policy in YAML is generated from this attribute.
-# Check out the docs at: http://rundeck.org/docs/man5/aclpolicy.html
+#<> The admin ACL policy in YAML is generated from this attribute.
 default['rundeck_server']['aclpolicy']['admin'] = [{
   description: 'Admin, all access.',
   context: {
@@ -118,3 +121,4 @@ default['rundeck_server']['aclpolicy']['admin'] = [{
     group:    ['admin'],
   },
 }]
+# Check out the docs at: http://rundeck.org/docs/man5/aclpolicy.html

@@ -2,6 +2,13 @@
 # Cookbook: rundeck-server
 # Recipe:   default
 #
+=begin
+#<
+This recipe call config recipe and setup rundeck-server service
+It also install rundeck gem to allow to configure rundeck via ruby
+#>
+=end
+
 
 include_recipe 'rundeck-server::config'
 

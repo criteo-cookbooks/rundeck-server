@@ -1,11 +1,55 @@
+=begin
+#<
+project provider configures a rundeck project
+
+@action create  Create a rundeck project.
+@action delete  Delete a rundeck project.
+
+@section Examples
+
+     # winrm example
+     rundeck_server_project 'windows_servers' do
+       executor({
+         provider: 'overthere-winrm',
+         config: {
+          'winrm-auth-type'      => 'certificate',
+          'winrm-protocol'       => 'https',
+          'winrm-cert-trust'     => 'all',
+          'winrm-hostname-trust' => 'all',
+          'winrm-cert'           =>  [PKCS#12 key for Java]
+         }
+       })
+       sources([{
+        'type'            => 'url',
+        'config.url'      => "http://url,
+        'config.timeout'  => 30,
+        'config.cache'    => true,
+      }])
+     end
+     
+     # ssh example
+     rundeck_server_project 'linux_servers' do
+       executor 'ssh'
+       sources([{
+        'type'            => 'url',
+        'config.url'      => "http://chef-bridge/linux,
+        'config.timeout'  => 30,
+        'config.cache'    => true,
+      }])
+     end
+#>
+=end
+
 actions :create, :delete
 default_action :create
 
+#<> @attribute name Name of the project
 attribute :name,
           kind_of: String,
           name_attribute: true,
           regex: /^[-_+.a-zA-Z0-9]+$/
 
+#<> @attribute executor Executor name + configuration. Could be a plain string (ssh) or complex hash configuration.
 attribute :executor,
           kind_of: [Symbol, Hash],
           default: :ssh,
@@ -18,6 +62,7 @@ attribute :executor,
             end,
           }
 
+#<> @attribute sources List of node sources
 attribute :sources,
           kind_of: Array,
           required: true,
