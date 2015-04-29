@@ -3,6 +3,9 @@
 # Attributes: default
 #
 
+# Java 7 is needed for RunDeck 2.5.0 and above
+default['java']['jdk_version'] = '7'
+
 # This depends on the package used
 default['rundeck_server']['confdir'] = '/etc/rundeck'
 default['rundeck_server']['basedir'] = '/var/lib/rundeck'
