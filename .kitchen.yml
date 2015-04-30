@@ -6,7 +6,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-6.5
+  - name: chef/centos-6.5
     driver_config:
       network:
       - ['forwarded_port', {guest: 4440, host: 4440, auto_correct: true}] # rundeck server port
