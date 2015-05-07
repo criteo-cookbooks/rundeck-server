@@ -1,16 +1,18 @@
+#
+# This uses https://rubygems.org/gems/kitchen-docker
+#
 ---
 driver:
-  name: vagrant
+  name: docker
+
+driver_config:
+  use_sudo: false
 
 provisioner:
   name: chef_zero
 
 platforms:
-  - name: chef/centos-6.5
-    driver_config:
-      network:
-      - ['forwarded_port', {guest: 4440, host: 4440, auto_correct: true}] # rundeck server port
-      - ['forwarded_port', {guest: 9980, host: 9980, auto_correct: true}] # chef-rundeck port
+  - name: centos-6.6
 
 suites:
   - name: server

@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'rundeck-test::default' do
+describe 'rundeck-test::project' do
   mock_web_xml
 
   let(:chef_run) do
