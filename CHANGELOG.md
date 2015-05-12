@@ -1,3 +1,9 @@
+1.1.0 (2015-05-12)
+-----
+
+    * Change job provider to go through YAML
+
+
 1.0.1 (2015-03-16)
 -----
 
