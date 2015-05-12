@@ -30,11 +30,12 @@ describe 'rundeck-test::job' do
 
   context 'job does not exist' do
     it 'call api to create a job' do
-      job = Rundeck::ObjectifiedHash.new('name' => 'test-job2', 'id' => 'abcde')
+      require 'yaml'
+      job = { 'name' => 'test-job2', 'id' => 'abcde' }
+      yaml = [job].to_yaml
       client = double('rundeck-client')
-      jobs = Rundeck::ObjectifiedHash.new('job' => [job.to_hash])
       expect(Rundeck).to receive(:client) { client }
-      expect(client).to receive(:jobs).with('project', kind_of(Hash)) { jobs }
+      expect(client).to receive(:export_jobs).with('project', 'yaml', kind_of(Hash)) { yaml }
       expect(client).to receive(:import_jobs) { response }
       chef_run # evaluate chef_run
     end
@@ -42,13 +43,11 @@ describe 'rundeck-test::job' do
 
   context 'job exists but is different' do
     it 'call api to modify a job' do
-      job = Rundeck::ObjectifiedHash.new('name' => 'test-job', 'id' => 'abcde')
+      job = { 'name' => 'test-job', 'id' => 'abcde', 'uuid' => 'abcde' }
+      yaml = [job].to_yaml
       client = double('rundeck-client')
-      jobfull = Rundeck::ObjectifiedHash.new('uuid' => 'abcde')
-      jobs = Rundeck::ObjectifiedHash.new('job' => [job.to_hash])
       expect(Rundeck).to receive(:client) { client }
-      expect(client).to receive(:jobs).with('project', kind_of(Hash)) { jobs }
-      expect(client).to receive(:job).with('abcde', kind_of(Hash)) { jobfull }
+      expect(client).to receive(:export_jobs).with('project', 'yaml', kind_of(Hash)) { yaml }
       expect(client).to receive(:import_jobs).with(
         "- description: ''\n  loglevel: INFO\n  sequence:\n    commands:\n    - exec: a command\n  name: test-job\n  project: project\n  uuid: abcde\n",
         'yaml',
@@ -60,13 +59,11 @@ describe 'rundeck-test::job' do
 
   context 'job exists and is correct' do
     it 'does not modify the job' do
-      job = Rundeck::ObjectifiedHash.new('name' => 'test-job', 'id' => 'abcde')
       client = double('rundeck-client')
-      jobfull = Rundeck::ObjectifiedHash.new('uuid' => 'abcde', 'description' => '', 'loglevel' => 'INFO', 'sequence' => { 'commands' => [{ 'exec' => 'a command' }] }, 'name' => 'test-job', 'context' => { 'project' => 'project' })
-      jobs = Rundeck::ObjectifiedHash.new('job' => [job.to_hash])
+      job = { 'uuid' => 'abcde', 'description' => '', 'loglevel' => 'INFO', 'sequence' => { 'commands' => [{ 'exec' => 'a command' }] }, 'name' => 'test-job', 'project' => 'project' }
+      yaml = [job].to_yaml
       expect(Rundeck).to receive(:client) { client }
-      expect(client).to receive(:jobs).with('project', kind_of(Hash)) { jobs }
-      expect(client).to receive(:job).with('abcde', kind_of(Hash)) { jobfull }
+      expect(client).to receive(:export_jobs).with('project', 'yaml', kind_of(Hash)) { yaml }
       expect(client).not_to receive(:import_jobs)
       chef_run # evaluate chef_run
     end
