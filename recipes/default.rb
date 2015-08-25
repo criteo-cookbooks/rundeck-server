@@ -10,6 +10,7 @@ It also install rundeck gem to allow to configure rundeck via ruby
 =end
 
 
+include_recipe 'rundeck-server::install'
 include_recipe 'rundeck-server::config'
 
 # Define service
