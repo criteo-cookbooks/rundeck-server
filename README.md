@@ -19,6 +19,7 @@ Installs rundeck and configure as needed
 
 Name | Description | Default
 -----|-------------|--------
+* `node['rundeck_server']['install_java']` |Installs Java |Defaults to `true`.
 * `node['rundeck_server']['confdir']` |  |Defaults to `"/etc/rundeck"`.
 * `node['rundeck_server']['basedir']` |  |Defaults to `"/var/lib/rundeck"`.
 * `node['rundeck_server']['datadir']` |  |Defaults to `"/var/rundeck"`.
@@ -67,9 +68,16 @@ Name | Description | Default
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']` |  |Defaults to `"0"`.
 * `node['rundeck_server']['jaas']` | The JAAS login configuration file with one entry and multiple modules may be generated from this attribute. |Defaults to `"[ ... ]"`.
 * `node['rundeck_server']['aclpolicy']['admin']` | The admin ACL policy in YAML is generated from this attribute. |Defaults to `"[ ... ]"`.
+* `node['rundeck_server']['yum']['description']` |Rundeck yum resource parameter |Defaults to `"Rundeck Official Repo"`
+* `node['rundeck_server']['yum']['gpgcheck']` |Rundeck yum resource parameter |Defaults to `true`
+* `node['rundeck_server']['yum']['enabled']` |Rundeck yum resource parameter |Defaults to `true`
+* `node['rundeck_server']['yum']['baseurl']` |Rundeck yum resource parameter |Defaults to `"http://dl.bintray.com/rundeck/rundeck-rpm/"`
+* `node['rundeck_server']['yum']['gpgkey']` |Rundeck yum resource parameter |Defaults to `"http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key"`
+* `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
 
 # Recipes
 
+* rundeck-server::install
 * rundeck-server::config
 * [rundeck-server::default](#rundeck-serverdefault)
 
