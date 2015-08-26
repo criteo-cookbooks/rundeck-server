@@ -4,6 +4,8 @@ Installs rundeck and configure as needed
 
 # Requirements
 
+- Chef v11.12.0+
+
 ## Platform:
 
 * Centos
