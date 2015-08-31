@@ -2,21 +2,6 @@
 # Recipe:   config
 #
 
-include_recipe 'java'
-
-# Configure yum repo if specified
-yum_repository 'rundeck' do
-  description 'Rundeck official repo'
-  baseurl     node['rundeck_server']['repo']
-  gpgcheck    false
-  action      :create
-end
-
-# Install RunDeck package
-package 'rundeck' do
-  action :install
-end
-
 # Install RunDeck plugins
 unless node['rundeck_server']['plugins'].nil?
   node['rundeck_server']['plugins'].each do |name, source|
