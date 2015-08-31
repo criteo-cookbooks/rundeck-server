@@ -4,12 +4,10 @@ Installs rundeck and configure as needed
 
 # Requirements
 
-- Chef v11.12.0+
-
 ## Platform:
 
-* Centos
 * Chef >= 11.16.4
+* Centos
 
 ## Cookbooks:
 
