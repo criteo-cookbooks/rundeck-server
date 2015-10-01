@@ -29,12 +29,17 @@ action :create do
   action_name = 'create'
   action_name = 'update' if job
 
-  if job.nil? || !equal(job, updated_job)
+  if job.nil? || !equal_with_diff(job, updated_job)
     Chef::Log.debug('before: ' + job.inspect)
     Chef::Log.debug('after: ' + updated_job.inspect)
 
     # yamlize update_job
     job_yaml = [updated_job].to_yaml.gsub(/^---\n/, '')
+
+    # encode + in job config
+    job_yaml = job_yaml.gsub(/\+/, '%2B')
+    # encode & in job config
+    job_yaml = job_yaml.gsub(/&/, '%26')
 
     converge_by "#{action_name} job #{@current_resource.project}/#{@current_resource.name}" do
       # dupeOption allow us to update jobs (default is create, which fails)
@@ -80,12 +85,41 @@ def get_job(client, project, name)
 end
 
 # Hash equality with a clearer diff
-def equal(h1, h2)
-  (h1.keys + h2.keys).uniq.all? do |k|
-    if h1[k] != h2[k]
-      Chef::Log.debug("Difference in key: #{k}\n, before: #{h1[k].inspect}, after: #{h2[k].inspect}")
+def equal_with_diff(h1, h2)
+  if h1.class != h2.class
+    Chef::Log.info("Not the same class!")
+    Chef::Log.info("before: #{h1.class}")
+    Chef::Log.info("after:  #{h2.class}")
+    return false
+  end
+  case h1
+  when Hash
+    (h1.keys + h2.keys).uniq.all? do |k|
+      if h1[k] != h2[k]
+        Chef::Log.info("Difference for key: #{k}")
+        equal_with_diff(h1[k], h2[k])
+      end
+      h1[k] == h2[k]
     end
-    h1[k] == h2[k]
+  when Array
+    if h1.size != h2.size
+      Chef::Log.info("Not the same size!")
+    end
+    h1.zip(h2).all? do |el|
+      if el[0] != el[1]
+        Chef::Log.info("Difference for array element")
+        equal_with_diff(el[0], el[1])
+        Chef::Log.info('array before: ' + h1.to_s)
+        Chef::Log.info('array after: ' + h2.to_s)
+      end
+      el[0] == el[1]
+    end
+  else
+    if h1 != h2
+      Chef::Log.info("before: "+ h1.to_s)
+      Chef::Log.info("after: "+ h2.to_s)
+    end
+    h1 == h2
   end
 end
 
