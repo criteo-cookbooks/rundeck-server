@@ -119,7 +119,7 @@ default['rundeck_server']['aclpolicy']['admin'] = [{
   for: {
     resource: [{ allow: '*' }],
     project:  [{ allow: '*' }],
-    storate:  [{ allow: '*' }],
+    storage:  [{ allow: '*' }],
   },
   by: {
     group:    ['admin'],
