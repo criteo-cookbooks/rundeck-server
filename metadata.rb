@@ -12,6 +12,7 @@ end
 
 depends          'yum'
 depends          'java'
+depends          'apt'
 
 suggests         'rundeck-bridge'
 suggests         'rundeck-node'
