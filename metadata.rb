@@ -5,7 +5,10 @@ license          'Apache License 2.0'
 description      'Installs rundeck and configure as needed'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.1.1'
-supports         'centos'
+
+%w(ubuntu centos amazon redhat).each do |os|
+  supports os
+end
 
 depends          'yum'
 depends          'java'
