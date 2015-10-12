@@ -8,6 +8,9 @@ Installs rundeck and configure as needed
 
 * Chef >= 11.16.4
 * Centos
+* Amazon
+* Redhat
+* Ubuntu
 
 ## Cookbooks:
 
@@ -76,6 +79,11 @@ Name | Description | Default
 * `node['rundeck_server']['yum']['baseurl']` |Rundeck yum resource parameter |Defaults to `"http://dl.bintray.com/rundeck/rundeck-rpm/"`
 * `node['rundeck_server']['yum']['gpgkey']` |Rundeck yum resource parameter |Defaults to `"http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key"`
 * `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
+* `node['rundeck_server']['apt']['uri']` |Rundeck apt resource parameter |Defaults to `http://dl.bintray.com/rundeck/rundeck-deb/`
+* `node['rundeck_server']['apt']['components']` |Rundeck apt resource parameter |Defaults to `/`
+* `node['rundeck_server']['apt']['key']` |Rundeck apt resource parameter |Defaults to `http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key`
+* `node['rundeck_server']['apt']['options']` |Rundeck apt resource parameter |Defaults to `--force-yes`
+* `node['rundeck_server']['apt']['action']` |Rundeck apt resource parameter |Defaults to `:create`
 
 # Recipes
 
