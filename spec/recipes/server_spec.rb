@@ -37,6 +37,10 @@ describe 'rundeck-server' do
     expect(chef_run).to render_file('rundeck-profile')
       .with_content('-XX:MaxPermSize=256m')
   end
+
+  it 'create template realm.properties' do
+    expect(chef_run).to create_template('realm.properties')
+  end
 end
 
 describe 'rundeck-server' do

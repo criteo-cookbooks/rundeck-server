@@ -106,3 +106,13 @@ template 'rundeck-framework-properties' do
   variables(properties: node['rundeck_server']['rundeck-config.framework'])
   notifies :restart, 'service[rundeckd]'
 end
+
+template 'realm.properties' do
+  path     ::File.join(node['rundeck_server']['confdir'], 'realm.properties')
+  source   'properties.erb'
+  owner    'rundeck'
+  group    'rundeck'
+  mode     '0644'
+  variables(properties: node['rundeck_server']['realm.properties'])
+  notifies :restart, 'service[rundeckd]'
+end

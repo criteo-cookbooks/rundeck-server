@@ -85,6 +85,9 @@ default['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']  
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.user']         = 'rundeck'
 default['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']      = 0
 
+# realm.properties users
+default['rundeck_server']['realm.properties']['admin'] = "admin,user,admin,architect,deploy,build"
+
 #<> The JAAS login configuration file with one entry and multiple modules may be generated from this attribute.
 default['rundeck_server']['jaas'] = [{
   module:  'org.eclipse.jetty.plus.jaas.spi.PropertyFileLoginModule',

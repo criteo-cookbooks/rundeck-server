@@ -67,6 +67,7 @@ Name | Description | Default
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']` |  |Defaults to `"/var/lib/rundeck/.ssh/id_rsa"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.user']` |  |Defaults to `"rundeck"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']` |  |Defaults to `"0"`.
+* `node['rundeck_server']['realm.properties']['admin']` | Admin User Password, Roles |Defaults to `"admin,user,admin,architect,deploy,build"`.
 * `node['rundeck_server']['jaas']` | The JAAS login configuration file with one entry and multiple modules may be generated from this attribute. |Defaults to `"[ ... ]"`.
 * `node['rundeck_server']['aclpolicy']['admin']` | The admin ACL policy in YAML is generated from this attribute. |Defaults to `"[ ... ]"`.
 * `node['rundeck_server']['yum']['description']` |Rundeck yum resource parameter |Defaults to `"Rundeck Official Repo"`
