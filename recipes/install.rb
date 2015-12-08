@@ -14,7 +14,10 @@ yum_repository 'rundeck' do
   action node['rundeck_server']['yum']['action']
 end
 
-# Install RunDeck package
-package 'rundeck' do
-  action :install
+# Install RunDeck packages
+node['rundeck_server']['packages'].each do | pkg_name, pkg_version |
+  package pkg_name  do
+    action  :install
+    version pkg_version
+  end
 end
