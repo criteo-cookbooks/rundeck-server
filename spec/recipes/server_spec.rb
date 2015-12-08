@@ -41,6 +41,10 @@ describe 'rundeck-server' do
   it 'create template realm.properties' do
     expect(chef_run).to create_template('realm.properties')
   end
+
+  it 'create template log4j.properties' do
+    expect(chef_run).to create_template('/etc/rundeck/log4j.properties')
+  end
 end
 
 describe 'rundeck-server' do

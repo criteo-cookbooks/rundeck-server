@@ -116,3 +116,11 @@ template 'realm.properties' do
   variables(properties: node['rundeck_server']['realm.properties'])
   notifies :restart, 'service[rundeckd]'
 end
+
+# Configure Log4J
+template ::File.join(node['rundeck_server']['confdir'], 'log4j.properties') do
+  source   'properties.erb'
+  mode     '0644'
+  notifies :restart, 'service[rundeckd]', :delayed
+  variables(properties: node['rundeck_server']['log4j.properties'])
+end
