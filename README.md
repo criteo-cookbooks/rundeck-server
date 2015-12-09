@@ -6,7 +6,7 @@ Installs rundeck and configure as needed
 
 ## Platform:
 
-* Chef >= 11.16.4
+* Chef >= 12.1.0
 * Centos
 
 ## Cookbooks:
