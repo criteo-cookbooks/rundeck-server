@@ -1,3 +1,9 @@
+1.1.2 (2015-12-10)
+-----
+
+    * Manage Log4J properties file
+    * Enforce a specific version of Rundeck packages
+
 1.1.1 (2015-10-01)
 -----
 
