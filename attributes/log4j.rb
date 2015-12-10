@@ -90,7 +90,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.stdout.layout.Conv
 # Output of the RunDeck command line utilities
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger.file'] = '/var/log/rundeck/command.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger.file'] = ::File.join(node['rundeck_server']['logdir'], 'command.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger.datePattern'] = "'.'yyyy-MM-dd"
 default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger.layout'] = 'org.apache.log4j.PatternLayout'
@@ -102,7 +102,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.cmd-logger.layout.
 # Captures all output from the rundeckd server.
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.server-logger'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.server-logger.file'] = '/var/log/rundeck/rundeck.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.server-logger.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.server-logger.datePattern'] = "'.'yyyy-MM-dd"
 default['rundeck_server']['log4j.properties']['log4j.appender.server-logger.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.server-logger.layout'] = 'org.apache.log4j.PatternLayout'
@@ -114,7 +114,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.server-logger.layo
 # Captures all audit events.
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.audit'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.audit.file'] = '/var/log/rundeck/rundeck.audit.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.audit.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.audit.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.audit.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.audit.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.audit.layout.ConversionPattern'] = '%d{ISO8601} - %m%n'
@@ -125,7 +125,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.audit.layout.Conve
 # Logs remote HTTP requests for Options JSON data
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.options'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.options.file'] = '/var/log/rundeck/rundeck.options.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.options.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.options.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.options.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.options.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.options.layout.ConversionPattern'] = '[%d{ISO8601}] %X{httpStatusCode} %X{contentLength}B %X{durationTime}ms %X{lastModifiedDateTime} [%X{jobName}] %X{url} %X{contentSHA1}%n'
@@ -136,7 +136,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.options.layout.Con
 # Logs events for Rundeck storage layer
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.storage'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.storage.file'] = '/var/log/rundeck/rundeck.storage.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.storage.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.storage.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.storage.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.storage.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.storage.layout.ConversionPattern'] = '[%d{ISO8601}] %X{action} %X{type} %X{path} %X{status} %X{metadata}%n'
@@ -147,7 +147,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.storage.layout.Con
 # Logs all Job definition changes
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges.file'] = '/var/log/rundeck/rundeck.jobs.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.jobs.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges.layout.ConversionPattern'] = '[%d{ISO8601}] %X{user} %X{change} [%X{id}] %X{project} "%X{groupPath}/%X{jobName}" (%X{method})%n'
@@ -158,7 +158,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.jobchanges.layout.
 # Logs all execution events (start,finish,delete)
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.execevents'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.execevents.file'] = '/var/log/rundeck/rundeck.executions.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.execevents.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.executions.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.execevents.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.execevents.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.execevents.layout.ConversionPattern'] = '[%d{ISO8601}] %X{eventUser} %X{event} [%X{id}:%X{state}] %X{project} %X{user}/%X{abortedby} "%X{groupPath}/%X{jobName}"[%X{uuid}]%n'
@@ -169,7 +169,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.execevents.layout.
 # Logs all API requests
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.apirequests'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.apirequests.file'] = '/var/log/rundeck/rundeck.api.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.apirequests.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.api.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.apirequests.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.apirequests.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.apirequests.layout.ConversionPattern'] = '[%d{ISO8601}] %X{remoteHost} %X{secure} %X{remoteUser} %X{authToken} %X{duration} %X{project} "%X{method} %X{uri}" (%X{userAgent})%n'
@@ -180,7 +180,7 @@ default['rundeck_server']['log4j.properties']['log4j.appender.apirequests.layout
 # Logs all Web requests
 #
 default['rundeck_server']['log4j.properties']['log4j.appender.access'] = 'org.apache.log4j.DailyRollingFileAppender'
-default['rundeck_server']['log4j.properties']['log4j.appender.access.file'] = '/var/log/rundeck/rundeck.access.log'
+default['rundeck_server']['log4j.properties']['log4j.appender.access.file'] = ::File.join(node['rundeck_server']['logdir'], 'rundeck.access.log')
 default['rundeck_server']['log4j.properties']['log4j.appender.access.append'] = 'true'
 default['rundeck_server']['log4j.properties']['log4j.appender.access.layout'] = 'org.apache.log4j.PatternLayout'
 default['rundeck_server']['log4j.properties']['log4j.appender.access.layout.ConversionPattern'] = '[%d{ISO8601}] "%X{method} %X{uri}" %X{remoteHost} %X{secure} %X{remoteUser} %X{authToken} %X{duration} %X{project} [%X{contentType}] (%X{userAgent})%n'

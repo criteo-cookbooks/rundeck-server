@@ -21,8 +21,10 @@ Installs rundeck and configure as needed
 Name | Description | Default
 -----|-------------|--------
 * `node['rundeck_server']['install_java']` |Installs Java |Defaults to `true`.
+* `node['rundeck_server']['packages']`|A hash of package name and version to install |Defaults to `2.5.3-1.10.GA`.
 * `node['rundeck_server']['confdir']` |  |Defaults to `"/etc/rundeck"`.
 * `node['rundeck_server']['basedir']` |  |Defaults to `"/var/lib/rundeck"`.
+* `node['rundeck_server']['logdir']`  |  |Defaults to `"/var/log/rundeck"`.
 * `node['rundeck_server']['datadir']` |  |Defaults to `"/var/rundeck"`.
 * `node['rundeck_server']['rolename']` | Default security-role/role-name allowed to authenticate. |Defaults to `"user"`.
 * `node['rundeck_server']['session_timeout']` | session timeout in the UI (in minutes). |Defaults to `"30"`.

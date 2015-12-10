@@ -16,6 +16,7 @@ default['rundeck_server']['packages'] = {
 # This depends on the package used
 default['rundeck_server']['confdir'] = '/etc/rundeck'
 default['rundeck_server']['basedir'] = '/var/lib/rundeck'
+default['rundeck_server']['logdir']  = '/var/log/rundeck'
 default['rundeck_server']['datadir'] = '/var/rundeck'
 
 #<> Default security-role/role-name allowed to authenticate
