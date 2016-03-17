@@ -7,6 +7,9 @@ gem 'fauxhai',    '>= 2.2'
 gem 'foodcritic', '>= 4.0'
 gem 'rake'
 
+# TODO Check why build is failing for rspec-mocks > 3.4.0
+gem 'rspec-mocks','= 3.4.0'
+
 gem 'test-kitchen'
 gem 'kitchen-vagrant'
 
