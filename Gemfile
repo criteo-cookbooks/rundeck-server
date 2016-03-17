@@ -11,3 +11,9 @@ gem 'test-kitchen'
 gem 'kitchen-vagrant'
 
 gem 'rundeck', '>= 1.1.0'
+
+group :ec2 do
+  gem 'kitchen-ec2', :git => 'https://github.com/criteo-forks/kitchen-ec2.git', :branch => 'criteo'
+  gem 'winrm',      '~> 1.6'
+  gem 'winrm-fs',   '~> 0.3'
+end
