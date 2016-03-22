@@ -22,6 +22,7 @@ template 'rundeck-jaas' do
   source   'jaas-loginmodule.conf.erb'
   variables(conf: node['rundeck_server']['jaas'])
   action   :create
+  sensitive true
   not_if   { node['rundeck_server']['jaas'].nil? }
   notifies :restart, 'service[rundeckd]', :delayed
 end
