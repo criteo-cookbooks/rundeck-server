@@ -43,6 +43,7 @@ end
 template ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properties') do
   source   'properties.erb'
   mode     '0644'
+  sansitive true
   notifies :restart, 'service[rundeckd]', :delayed
   variables(properties: node['rundeck_server']['rundeck-config.properties'])
 end
