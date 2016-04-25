@@ -7,7 +7,7 @@ RSpec::Core::RakeTask.new(:rspec)
 
 
 desc 'Run kitchen tests'
-task :test_ec2 do
+task :test_kitchen do
   Kitchen.logger = Kitchen.default_file_logger
   @loader = Kitchen::Loader::YAML.new(project_config: './.kitchen.ec2.yml')
   config = Kitchen::Config.new(loader: @loader)
@@ -23,4 +23,7 @@ task :test_ec2 do
     threads.map(&:join)
   end
 end
-task default: [:foodcritic, :rspec, :test_ec2]
+
+tasks = [:foodcritic, :rspec]
+tasks << :test_kitchen if ENV['encrypted_5b96b54c695c_iv']
+task default: tasks
