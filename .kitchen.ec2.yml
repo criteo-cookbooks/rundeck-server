@@ -21,6 +21,11 @@ driver:
   security_group_filter:
     tag:   'Name'
     value: <%= ENV['AWS_SECURITY_GROUP'] || 'chef-testing-opensource-vpc-security-group' %>
+  block_device_mappings:
+    - device_name: /dev/sda1
+      ebs:
+        volume_type: gp2
+        delete_on_termination: true
 
 transport:
   ssh_key: <%= ENV['HOME'] %>/.ssh/id_rsa
