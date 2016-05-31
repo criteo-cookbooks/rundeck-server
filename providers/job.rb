@@ -36,6 +36,8 @@ action :create do
     # yamlize update_job
     job_yaml = [updated_job].to_yaml.gsub(/^---\n/, '')
 
+    # encode % in job config
+    job_yaml = job_yaml.gsub(/\%/, '%25')
     # encode + in job config
     job_yaml = job_yaml.gsub(/\+/, '%2B')
     # encode & in job config
