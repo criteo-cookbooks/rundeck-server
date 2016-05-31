@@ -8,10 +8,9 @@ default['rundeck_server']['install_java'] = true
 default['java']['jdk_version'] = '7'
 
 # Version of Rundeck packages
-default['rundeck_server']['packages'] = {
-  'rundeck'        => '2.6.4-1.15.GA',
-  'rundeck-config' => '2.6.4-1.15.GA',
-}
+default['rundeck_server']['packages']['yum']['rundeck'] = '2.6.4-1.15.GA'
+default['rundeck_server']['packages']['yum']['rundeck-config'] = '2.6.4-1.15.GA'
+default['rundeck_server']['packages']['apt']['rundeck'] = '2.6.4'
 
 # This depends on the package used
 default['rundeck_server']['confdir'] = '/etc/rundeck'
@@ -25,9 +24,6 @@ default['rundeck_server']['rolename'] = 'user'
 
 #<> session timeout in the UI (in minutes)
 default['rundeck_server']['session_timeout'] = 30
-
-#<> Repository containing the rundeck package
-default['rundeck_server']['repo'] = 'http://dl.bintray.com/rundeck/rundeck-rpm/'
 
 #<> Plugin list to install. Type is { 'pluginname' => { 'url' => URL } }
 default['rundeck_server']['plugins']['winrm']['url'] = 'https://github.com/rundeck-plugins/rundeck-winrm-plugin/releases/download/v1.2/rundeck-winrm-plugin-1.2.jar'
