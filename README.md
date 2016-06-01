@@ -7,8 +7,8 @@ Installs rundeck and configure as needed
 ## Platform:
 
 * Chef >= 12.1.0
-* Centos
-* Ubuntu
+* Centos - fully supported
+* Ubuntu - _minimal_ (best-effort) support only
 
 ## Cookbooks:
 
