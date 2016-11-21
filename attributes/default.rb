@@ -9,8 +9,8 @@ default['java']['jdk_version'] = '7'
 
 # Version of Rundeck packages
 default['rundeck_server']['packages'] = {
-  'rundeck'        => '2.6.4-1.15.GA',
-  'rundeck-config' => '2.6.4-1.15.GA',
+  'rundeck'        => '2.6.11-1.23.GA',
+  'rundeck-config' => '2.6.11-1.23.GA',
 }
 
 # This depends on the package used
