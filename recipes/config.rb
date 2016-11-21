@@ -35,7 +35,6 @@ node['rundeck_server']['aclpolicy'].each do |policy, configuration|
     variables(conf: configuration)
     action   :create
     not_if   { configuration.nil? }
-    notifies :restart, 'service[rundeckd]', :delayed
   end
 end
 
