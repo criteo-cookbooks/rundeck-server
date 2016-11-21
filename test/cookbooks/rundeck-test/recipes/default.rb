@@ -1,5 +1,7 @@
 include_recipe 'rundeck-server'
 
+package 'curl'
+
 # Create an API token for the admin user
 file ::File.join(node['rundeck_server']['confdir'], 'token.properties') do
   owner    'rundeck'

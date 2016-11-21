@@ -7,7 +7,8 @@ Installs rundeck and configure as needed
 ## Platform:
 
 * Chef >= 12.1.0
-* Centos
+* Centos - fully supported
+* Ubuntu - _minimal_ (best-effort) support only
 
 ## Cookbooks:
 
@@ -28,7 +29,6 @@ Name | Description | Default
 * `node['rundeck_server']['datadir']` |  |Defaults to `"/var/rundeck"`.
 * `node['rundeck_server']['rolename']` | Default security-role/role-name allowed to authenticate. |Defaults to `"user"`.
 * `node['rundeck_server']['session_timeout']` | session timeout in the UI (in minutes). |Defaults to `"30"`.
-* `node['rundeck_server']['repo']` | Repository containing the rundeck package. |Defaults to `"http://dl.bintray.com/rundeck/rundeck-rpm/"`.
 * `node['rundeck_server']['plugins']['winrm']['url']` | Plugin list to install. Type is { 'pluginname' => { 'url' => URL } }. |Defaults to `"https://github.com/rundeck-plugins/rundeck-winrm-plugin/releases/download/v1.2/rundeck-winrm-plugin-1.2.jar"`.
 * `node['rundeck_server']['jvm']['Dloginmodule.name']` |  |Defaults to `"RDpropertyfilelogin"`.
 * `node['rundeck_server']['jvm']['Drdeck.config']` |  |Defaults to `"node['rundeck_server']['confdir']"`.
@@ -78,6 +78,11 @@ Name | Description | Default
 * `node['rundeck_server']['yum']['baseurl']` |Rundeck yum resource parameter |Defaults to `"http://dl.bintray.com/rundeck/rundeck-rpm/"`
 * `node['rundeck_server']['yum']['gpgkey']` |Rundeck yum resource parameter |Defaults to `"http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key"`
 * `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
+* `node['rundeck_server']['apt']['uri']` |Rundeck apt resource parameter |Defaults to `http://dl.bintray.com/rundeck/rundeck-deb/`
+* `node['rundeck_server']['apt']['components']` |Rundeck apt resource parameter |Defaults to `/`
+* `node['rundeck_server']['apt']['key']` |Rundeck apt resource parameter |Defaults to `http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key`
+* `node['rundeck_server']['apt']['action']` |Rundeck apt resource parameter |Defaults to `:create`
+* `node['rundeck_server']['apt']['options']` |Options passed to apt package resource |Defaults to `--force-yes -o Dpkg::Options::="--force-confnew"`
 
 # Recipes
 
