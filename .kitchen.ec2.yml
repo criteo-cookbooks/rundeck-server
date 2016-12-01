@@ -36,8 +36,6 @@ provisioner:
 
 platforms:
   - name: centos-7
-    driver:
-      image_id: ami-d2c924b2
 
 suites:
   - name: default

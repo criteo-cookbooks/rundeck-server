@@ -5,7 +5,7 @@ require 'rundeck'
 
 RSpec.configure do |config|
   config.platform = 'centos'
-  config.version  = '6.5'
+  config.version  = '7.2.1511'
 end
 
 def mock_web_xml(role_name = 'user', timeout = 30)
