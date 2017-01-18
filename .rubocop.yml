@@ -1,6 +1,8 @@
-TrailingComma:
+TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
-SingleSpaceBeforeFirstArg:
+TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+SpaceBeforeFirstArg:
   Enabled: false
 LineLength:
   Enabled: false
