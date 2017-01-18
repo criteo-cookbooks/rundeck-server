@@ -50,6 +50,7 @@ Name | Description | Default
 * `node['rundeck_server']['jvm']['server']` |  |Defaults to `"true"`.
 * `node['rundeck_server']['threadcount']` | Quartz job threadCount. |Defaults to `"10"`.
 * `node['rundeck_server']['rundeck-config.properties']['loglevel.default']` |  |Defaults to `"INFO"`.
+* `node['rundeck_server']['rundeck-config.properties']['dataSource.url']` | Default database URL |Defaults to `jdbc:h2:file:~/grailsh2`.
 * `node['rundeck_server']['rundeck-config.properties']['rdeck.base']` |  |Defaults to `"node['rundeck_server']['basedir']"`.
 * `node['rundeck_server']['rundeck-config.properties']['rss.enabled']` |  |Defaults to `"false"`.
 * `node['rundeck_server']['rundeck-config.properties']['grails.serverURL']` |  |Defaults to `"http://localhost:4440"`.
@@ -78,11 +79,13 @@ Name | Description | Default
 * `node['rundeck_server']['yum']['baseurl']` |Rundeck yum resource parameter |Defaults to `"http://dl.bintray.com/rundeck/rundeck-rpm/"`
 * `node['rundeck_server']['yum']['gpgkey']` |Rundeck yum resource parameter |Defaults to `"http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key"`
 * `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
+* `node['rundeck_server']['cli']['config']` |Parameters to configure Rundeck CLI for Rundeck 2.7.x . See [documentation](https://github.com/rundeck/rundeck-cli/blob/master/docs/configuration.md)|Defaults to `{ RD_URL: 'http://localhost:4440' }`
 
 # Recipes
 
 * rundeck-server::install
 * rundeck-server::config
+* rundeck-server::install_cli - Installs the [Rundeck CLI](https://rundeck.github.io/rundeck-cli/) - Only use for Rundeck 2.7.x and above
 * [rundeck-server::default](#rundeck-serverdefault)
 
 ## rundeck-server::default
