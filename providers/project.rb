@@ -11,7 +11,7 @@ action :create do
   end
 
   properties = {
-    'project.name' => new_resource.name,
+    'project.name' => new_resource.name
   }
 
   executor = new_resource.executor
@@ -23,8 +23,8 @@ action :create do
         provider: 'jsch-ssh',
         config: {
           'ssh-authentication'  => 'privateKey',
-          'ssh-keypath'         => "#{node['rundeck_server']['basedir']}/.ssh/id_rsa",
-        },
+          'ssh-keypath'         => "#{node['rundeck_server']['basedir']}/.ssh/id_rsa"
+        }
       }
     when :winrm
       fail 'WinRM template not yet supported'
@@ -35,7 +35,7 @@ action :create do
 
   properties['service.NodeExecutor.default.provider'] = executor[:provider] || executor['provider']
   (executor[:config] || executor['config']).each do |key, value|
-    properties["project.#{key}"]  = value
+    properties["project.#{key}"] = value
   end
 
   new_resource.sources.each_with_index do |source, i|

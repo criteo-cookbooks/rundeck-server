@@ -21,7 +21,7 @@ template 'rundeck-jaas' do
   path     "#{node['rundeck_server']['confdir']}/jaas-loginmodule.conf"
   source   'jaas-loginmodule.conf.erb'
   variables(conf: node['rundeck_server']['jaas'])
-  action   :create
+  action :create
   sensitive true
   not_if   { node['rundeck_server']['jaas'].nil? }
   notifies :restart, 'service[rundeckd]', :delayed
@@ -63,7 +63,7 @@ web_xml = "#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/web.xml"
 
 web_xml_update = {
   'web-app/security-role/role-name'        => node['rundeck_server']['rolename'],
-  'web-app/session-config/session-timeout' => node['rundeck_server']['session_timeout'],
+  'web-app/session-config/session-timeout' => node['rundeck_server']['session_timeout']
 }
 
 ruby_block 'web-xml-update' do # ~FC022

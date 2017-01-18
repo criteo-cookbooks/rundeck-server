@@ -6,7 +6,7 @@ rundeck_server_job 'test-job' do
     loglevel: 'INFO',
     sequence: {
       commands: [
-        exec: 'a command',
-      ],
+        exec: 'a command'
+      ]
     })
 end

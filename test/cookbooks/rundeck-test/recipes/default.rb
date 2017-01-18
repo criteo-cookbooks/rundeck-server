@@ -15,8 +15,8 @@ rundeck_server_project 'dummy-project' do
   sources [
     { 'type'           => 'url',
       'config.url'     => 'http://localhost:9980/',
-      'config.timeout' => 30,
-    },
+      'config.timeout' => 30
+    }
   ]
 end
 
@@ -36,8 +36,8 @@ rundeck_server_job 'dummy-job' do
       keepgoing: false,
       strategy:  'node-first',
       commands: [
-        exec: 'Dummy command',
-      ],
+        exec: 'Dummy command'
+      ]
     })
   only_if 'curl --silent --fail --insecure http://localhost:4440'
 end
@@ -48,8 +48,8 @@ rundeck_server_project 'Test' do
   sources [
     { 'type'           => 'url',
       'config.url'     => 'http://localhost:9980/',
-      'config.timeout' => 30,
-    },
+      'config.timeout' => 30
+    }
   ]
 end
 

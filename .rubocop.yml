@@ -1,8 +1,7 @@
-TrailingCommaInLiteral:
-  EnforcedStyleForMultiline: comma
-TrailingCommaInArguments:
-  EnforcedStyleForMultiline: comma
-SpaceBeforeFirstArg:
-  Enabled: false
+AllCops:
+  Exclude:
+    - test/cookbooks/rundeck-test/attributes/**/*
+    - spec/spec_helper.rb
+
 LineLength:
   Enabled: false

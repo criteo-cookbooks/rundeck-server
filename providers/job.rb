@@ -89,7 +89,7 @@ end
 # Hash equality with a clearer diff
 def equal_with_diff(h1, h2)
   if h1.class != h2.class
-    Chef::Log.info("Not the same class!")
+    Chef::Log.info('Not the same class!')
     Chef::Log.info("before: #{h1.class}")
     Chef::Log.info("after:  #{h2.class}")
     return false
@@ -104,12 +104,10 @@ def equal_with_diff(h1, h2)
       h1[k] == h2[k]
     end
   when Array
-    if h1.size != h2.size
-      Chef::Log.info("Not the same size!")
-    end
+    Chef::Log.info('Not the same size!') if h1.size != h2.size
     h1.zip(h2).all? do |el|
       if el[0] != el[1]
-        Chef::Log.info("Difference for array element")
+        Chef::Log.info('Difference for array element')
         equal_with_diff(el[0], el[1])
         Chef::Log.info('array before: ' + h1.to_s)
         Chef::Log.info('array after: ' + h2.to_s)
@@ -118,8 +116,8 @@ def equal_with_diff(h1, h2)
     end
   else
     if h1 != h2
-      Chef::Log.info("before: "+ h1.to_s)
-      Chef::Log.info("after: "+ h2.to_s)
+      Chef::Log.info('before: ' + h1.to_s)
+      Chef::Log.info('after: ' + h2.to_s)
     end
     h1 == h2
   end

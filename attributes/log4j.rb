@@ -11,8 +11,8 @@ default['rundeck_server']['log4j.properties']['log4j.rootLogger'] = 'warn, stdou
 
 default['rundeck_server']['log4j.properties']['log4j.com.dtolabs.rundeck.core'] = 'INFO, cmd-logger'
 
-#log4j.logger.org.codehaus.groovy.grails.plugins.quartz'] = 'debug,stdout'
-#log4j.additivity.org.codehaus.groovy.grails.plugins.quartz'] = 'false'
+# log4j.logger.org.codehaus.groovy.grails.plugins.quartz'] = 'debug,stdout'
+# log4j.additivity.org.codehaus.groovy.grails.plugins.quartz'] = 'false'
 
 # Enable audit logging
 default['rundeck_server']['log4j.properties']['log4j.logger.com.dtolabs.rundeck.core.authorization'] = 'info, audit'
@@ -44,12 +44,12 @@ default['rundeck_server']['log4j.properties']['log4j.additivity.org.rundeck.stor
 
 # Enable this logger to log Hibernate output
 # handy to see its database interaction activity
-#log4j.logger.org.hibernate'] = 'debug,stdout'
-#log4j.additivity.org.hibernate'] = 'false'
+# log4j.logger.org.hibernate'] = 'debug,stdout'
+# log4j.additivity.org.hibernate'] = 'false'
 
 # Enable this logger to see what Spring does, occasionally useful
-#log4j.logger.org.springframework'] = 'info,stdout '
-#log4j.additivity.org.springframework'] = 'false'
+# log4j.logger.org.springframework'] = 'info,stdout '
+# log4j.additivity.org.springframework'] = 'false'
 
 # This logger covers all of Grails' internals
 # Enable to see whats going on underneath.
@@ -69,7 +69,6 @@ default['rundeck_server']['log4j.properties']['log4j.additivity.org.codehaus.gro
 # This logger is for Grails' public APIs within the grails. package
 default['rundeck_server']['log4j.properties']['log4j.logger.grails'] = 'info,stdout, server-logger'
 default['rundeck_server']['log4j.properties']['log4j.additivity.grails'] = 'false        '
-
 
 ####################################################################################################
 #

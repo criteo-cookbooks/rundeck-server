@@ -13,14 +13,14 @@ job_template = {
     'strategy'  => 'node-first',
     'commands'  => [{
       'exec'        => 'uname -a',
-      'description' => 'Output uname',
+      'description' => 'Output uname'
     }, {
       'exec'        => 'mkdir /tmp/test',
-      'description' => 'Create a test directory',
+      'description' => 'Create a test directory'
     }, {
       'exec'        => 'touch /tmp/test/${option.version}',
-      'description' => 'Create version file',
-    }],
+      'description' => 'Create version file'
+    }]
   },
   'nodefilters' => {
     'filter'   => 'location: ${option.location}',
@@ -28,21 +28,21 @@ job_template = {
       'threadcount'       => 30,
       'keepgoing'         => true,
       'excludePrecedence' => true,
-      'rankOrder'         => 'ascending',
-    },
+      'rankOrder'         => 'ascending'
+    }
   },
   'timeout' => '1h',
   'options' =>  {
     'location' => {
-      'required' => true,
+      'required' => true
     },
     'version' => {
-      'required' => true,
+      'required' => true
     },
     'environment' => {
-      'required' => true,
-    },
-  },
+      'required' => true
+    }
+  }
 }
 
 # Release using one thread
@@ -66,7 +66,7 @@ Total maximum number of threads set to 100.\n",
   'sequence' => {
     'keepgoing' => true,
     'strategy'  => 'parallel',
-    'commands'  => [], # This is filled automatically by the loops below
+    'commands'  => [] # This is filled automatically by the loops below
   },
   'nodefilters' => {
     'filter'   => 'tags: service',
@@ -74,15 +74,15 @@ Total maximum number of threads set to 100.\n",
       'threadcount'       => 90,
       'keepgoing'         => true,
       'excludePrecedence' => true,
-      'rankOrder'         => 'ascending',
-    },
+      'rankOrder'         => 'ascending'
+    }
   },
   'options' => {
     'version' => {
       'required'    => true,
-      'description' => 'The version to release (upgrade or downgrade).',
-    },
-  },
+      'description' => 'The version to release (upgrade or downgrade).'
+    }
+  }
 }
 
 # Host release wrapper jobs
@@ -99,18 +99,18 @@ environments.each do |environment|
         'jobref' => {
           'group' => 'Test',
           'name'  => 'Release (parallel)',
-          'args'  =>  "-location #{location} -version ${option.version} -environment #{environment}",
+          'args'  =>  "-location #{location} -version ${option.version} -environment #{environment}"
         },
-        'description' => "Parallel rollout in #{location}",
+        'description' => "Parallel rollout in #{location}"
       }
     else
       step = {
         'jobref' => {
           'group' => 'Test',
           'name'  => 'Release (single)',
-          'args'  =>  "-location #{location} -version ${option.version} -environment #{environment}",
+          'args'  =>  "-location #{location} -version ${option.version} -environment #{environment}"
         },
-        'description' => "Single rollout in #{location}",
+        'description' => "Single rollout in #{location}"
       }
     end
     default['rundeck_test']['jobs']['Test']["Release (#{environment})"]['sequence']['commands'].push(step)

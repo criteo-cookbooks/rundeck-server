@@ -23,10 +23,10 @@ project provider configures a rundeck project
         'type'            => 'url',
         'config.url'      => "http://url,
         'config.timeout'  => 30,
-        'config.cache'    => true,
+        'config.cache'    => true
       }])
      end
-     
+
      # ssh example
      rundeck_server_project 'linux_servers' do
        executor 'ssh'
@@ -34,7 +34,7 @@ project provider configures a rundeck project
         'type'            => 'url',
         'config.url'      => "http://chef-bridge/linux,
         'config.timeout'  => 30,
-        'config.cache'    => true,
+        'config.cache'    => true
       }])
      end
 #>
@@ -43,13 +43,13 @@ project provider configures a rundeck project
 actions :create, :delete
 default_action :create
 
-#<> @attribute name Name of the project
+# <> @attribute name Name of the project
 attribute :name,
           kind_of: String,
           name_attribute: true,
           regex: /^[-_+.a-zA-Z0-9]+$/
 
-#<> @attribute executor Executor name + configuration. Could be a plain string (ssh) or complex hash configuration.
+# <> @attribute executor Executor name + configuration. Could be a plain string (ssh) or complex hash configuration.
 attribute :executor,
           kind_of: [Symbol, Hash],
           default: :ssh,
@@ -59,10 +59,10 @@ attribute :executor,
             end,
             must_contain_config: lambda do |executor|
               executor.is_a?(Symbol) || (executor['config'] || executor[:config]).is_a?(Hash)
-            end,
+            end
           }
 
-#<> @attribute sources List of node sources
+# <> @attribute sources List of node sources
 attribute :sources,
           kind_of: Array,
           required: true,
@@ -72,7 +72,7 @@ attribute :sources,
             end,
             must_contain_type: lambda do |sources|
               sources.all? { |source| source['type'] || source[:type] }
-            end,
+            end
           }
 
 attribute :cookbook,
