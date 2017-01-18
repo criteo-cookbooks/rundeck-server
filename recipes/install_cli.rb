@@ -2,10 +2,7 @@
 # Recipe:   install_cli
 # Description: This should be ran if using Rundeck 7.x+
 # See: http://rundeck.org/docs/upgrading/index.html#cli-tools-are-gone
-#
-
 # Note: This must be Java 8 or greater
-# See:
 include_recipe 'java' if node['rundeck_server']['install_java']
 
 package 'rundeck-cli'
