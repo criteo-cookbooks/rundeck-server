@@ -5,7 +5,7 @@ describe 'rundeck-test::project' do
 
   let(:chef_run) do
     ChefSpec::SoloRunner.new(
-      step_into: ['rundeck_server_project'],
+      step_into: ['rundeck_server_project']
     ).converge(described_recipe)
   end
 
@@ -18,7 +18,7 @@ end
 describe 'rundeck-test::job' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(
-      step_into: ['rundeck_server_job'],
+      step_into: ['rundeck_server_job']
     ).converge(described_recipe)
   end
 
@@ -51,7 +51,7 @@ describe 'rundeck-test::job' do
       expect(client).to receive(:import_jobs).with(
         "- description: ''\n  loglevel: INFO\n  sequence:\n    commands:\n    - exec: a command\n  name: test-job\n  project: project\n  uuid: abcde\n",
         'yaml',
-        kind_of(Hash),
+        kind_of(Hash)
       ) { response }
       chef_run # evaluate chef_run
     end

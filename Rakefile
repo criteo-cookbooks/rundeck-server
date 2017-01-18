@@ -5,7 +5,6 @@ require 'foodcritic'
 FoodCritic::Rake::LintTask.new
 RSpec::Core::RakeTask.new(:rspec)
 
-
 desc 'Run kitchen tests'
 task :test_kitchen do
   Kitchen.logger = Kitchen.default_file_logger

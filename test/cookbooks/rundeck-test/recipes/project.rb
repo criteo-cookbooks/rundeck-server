@@ -5,8 +5,8 @@ rundeck_server_project 'test-project-ssh' do
   sources [
     { 'type'           => 'url',
       'config.url'     => 'http://chefserver_bridge:9980/',
-      'config.timeout' => 30,
-    },
+      'config.timeout' => 30
+    }
   ]
 end
 
@@ -15,13 +15,13 @@ rundeck_server_project 'test-project-custom' do
     provider: 'overthere-winrm',
     config: {
       'winrm-auth-type' => 'kerberos',
-      'winrm-protocol'  => 'https',
-    },
+      'winrm-protocol'  => 'https'
+    }
   )
   sources [
     { 'type'           => 'url',
       'config.url'     => 'http://chefserver_bridge:9980/',
-      'config.timeout' => 30,
-    },
+      'config.timeout' => 30
+    }
   ]
 end

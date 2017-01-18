@@ -15,7 +15,7 @@ yum_repository 'rundeck' do
 end
 
 # Install Rundeck packages
-package 'Rundeck Packages'  do
+package 'Rundeck Packages' do
   package_name    node['rundeck_server']['packages'].keys
   version         node['rundeck_server']['packages'].values
   action          :install
