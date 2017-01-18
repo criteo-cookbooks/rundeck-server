@@ -3,9 +3,10 @@
 # Attributes: default
 #
 
-# Java 7 is needed for RunDeck 2.5.0 and above
+# Java 8 is needed for RunDeck 2.7.x, Rundeck author suggests Java 7 and below
+# is now deprecated in terms of support
 default['rundeck_server']['install_java'] = true
-default['java']['jdk_version'] = '7'
+default['java']['jdk_version'] = '8'
 
 # Version of Rundeck packages
 default['rundeck_server']['packages'] = {
@@ -73,6 +74,9 @@ default['rundeck_server']['rundeck-config.properties']['loglevel.default'] = 'IN
 default['rundeck_server']['rundeck-config.properties']['rdeck.base']       = node['rundeck_server']['basedir']
 default['rundeck_server']['rundeck-config.properties']['rss.enabled']      = false
 default['rundeck_server']['rundeck-config.properties']['grails.serverURL'] = 'http://localhost:4440'
+# see http://www.h2database.com/html/changelog.html (Starting with Version 1.4.177 Beta)
+# Fixes implicit relative path usage
+default['rundeck_server']['rundeck-config.properties']['dataSource.url']   = 'jdbc:h2:file:~/grailsh2'
 
 # rundeck-config.framework configuration
 default['rundeck_server']['rundeck-config.framework']['framework.server.name']      = 'localhost'
@@ -94,6 +98,11 @@ default['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']  
 
 # realm.properties users
 default['rundeck_server']['realm.properties']['admin'] = 'admin,user,admin,architect,deploy,build'
+
+# See: https://github.com/rundeck/rundeck-cli/blob/master/docs/configuration.md
+default['rundeck_server']['cli']['config'] = {
+  RD_URL: 'http://localhost:4440'
+}
 
 # <> The JAAS login configuration file with one entry and multiple modules may be generated from this attribute.
 default['rundeck_server']['jaas'] = [{
