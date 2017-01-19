@@ -10,8 +10,8 @@ default['java']['jdk_version'] = '8'
 
 # Version of Rundeck packages
 default['rundeck_server']['packages'] = {
-  'rundeck'        => '2.6.11-1.23.GA',
-  'rundeck-config' => '2.6.11-1.23.GA'
+  'rundeck'        => '2.7.1-1.25.GA',
+  'rundeck-config' => '2.7.1-1.25.GA'
 }
 
 # This depends on the package used
@@ -103,10 +103,11 @@ default['rundeck_server']['realm.properties']['admin'] = 'admin,user,admin,archi
 default['rundeck_server']['cli']['config'] = {
   RD_URL: 'http://localhost:4440'
 }
+default['rundeck_server']['cli']['version'] = '1.0.4-1'
 
 # <> The JAAS login configuration file with one entry and multiple modules may be generated from this attribute.
 default['rundeck_server']['jaas'] = [{
-  module:  'org.eclipse.jetty.plus.jaas.spi.PropertyFileLoginModule',
+  module:  'org.eclipse.jetty.jaas.spi.PropertyFileLoginModule',
   flag:    'required',
   options: {
     debug: 'true',
