@@ -17,21 +17,6 @@ suites:
   - name: server
     run_list:
       - recipe[rundeck-server]
-
-  - name: server-2.7.x
-    attributes:
-      rundeck_server:
-        jaas:
-          - module: 'org.eclipse.jetty.jaas.spi.PropertyFileLoginModule'
-            flag: 'required'
-            options:
-              debug: 'true'
-              file: '/etc/rundeck/realm.properties'
-        packages:
-          rundeck: '2.7.1-1.25.GA'
-          rundeck-config: '2.7.1-1.25.GA'
-    run_list:
-      - recipe[rundeck-server]
       - recipe[rundeck-server::install_cli]
 
   - name: job

@@ -5,7 +5,9 @@
 # Note: This must be Java 8 or greater
 include_recipe 'java' if node['rundeck_server']['install_java']
 
-package 'rundeck-cli'
+package 'rundeck-cli' do
+	version node['rundeck_server']['cli']['version']
+end
 
 directory ::File.join(node['rundeck_server']['basedir'], '.rd') do
   owner 'rundeck'

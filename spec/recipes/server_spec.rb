@@ -21,7 +21,7 @@ describe 'rundeck-server' do
 
   it 'check default template content' do
     expect(chef_run).to render_file('rundeck-jaas')
-      .with_content('org.eclipse.jetty.plus.jaas.spi.PropertyFileLoginModule')
+      .with_content('org.eclipse.jetty.jaas.spi.PropertyFileLoginModule')
   end
 
   it 'simple default admin aclpolicy yaml content' do
