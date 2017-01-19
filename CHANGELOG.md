@@ -1,3 +1,15 @@
+1.3.0
+-----
+
+    * Update to allow installation of Rundeck 2.7.x
+    * Add CLI installation recipe
+    * Fix a lot of rubocop warnings/cautions
+    * Update documentation
+
+1.2.0
+-----
+
+
 1.1.2 (2015-12-10)
 -----
 
