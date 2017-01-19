@@ -41,3 +41,4 @@ suites:
   - name: default
     run_list:
       - recipe[rundeck-server]
+      - recipe[rundeck-server::install_cli]
