@@ -12,3 +12,6 @@ depends          'java'
 
 suggests         'rundeck-bridge'
 suggests         'rundeck-node'
+
+source_url 'https://github.com/criteo-cookbooks/rundeck-server'
+issues_url 'https://github.com/criteo-cookbooks/rundeck-server/issues'
