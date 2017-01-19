@@ -4,9 +4,11 @@ rundeck_server_job 'test-job' do
   config(
     description: '',
     loglevel: 'INFO',
-    sequence: {
+    sequence:
+    {
       commands: [
         exec: 'a command'
       ]
-    })
+    }
+  )
 end

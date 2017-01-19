@@ -18,8 +18,12 @@ suites:
     run_list:
       - recipe[rundeck-server]
       - recipe[rundeck-server::install_cli]
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
 
   - name: job
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
     attributes:
       rundeck_server:
         rundeck-config.framework:

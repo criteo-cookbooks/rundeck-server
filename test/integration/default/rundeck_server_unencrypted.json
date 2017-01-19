@@ -1,0 +1,12 @@
+{
+	"id" : "secrets",
+	"rundeck-config.framework" : {
+		"framework.server.username" : "admin",
+		"framework.server.password" : "admin"
+	},
+	"jaas" : [],
+	"rundeck-config.properties" : {},
+	"realm.properties" : {
+		"admin" : "MD5:21232f297a57a5a743894a0e4a801fc3,user,admin,architect,deploy,build"
+	}
+}

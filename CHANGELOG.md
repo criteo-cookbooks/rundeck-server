@@ -1,3 +1,7 @@
+1.3.1
+-----
+    * Allow some sensitive configuration elements to come from an encrypted data bag
+    
 1.3.0
 -----
 
