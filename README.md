@@ -80,6 +80,7 @@ Name | Description | Default
 * `node['rundeck_server']['yum']['gpgkey']` |Rundeck yum resource parameter |Defaults to `"http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key"`
 * `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
 * `node['rundeck_server']['cli']['config']` |Parameters to configure Rundeck CLI for Rundeck 2.7.x . See [documentation](https://github.com/rundeck/rundeck-cli/blob/master/docs/configuration.md)|Defaults to `{ RD_URL: 'http://localhost:4440' }`
+* `node['rundeck_server']['cli']['version']` |Allows to dictate version of Rundeck CLI to install|Defaults to 1.0.4-1
 
 # Recipes
 
