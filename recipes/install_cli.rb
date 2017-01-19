@@ -6,7 +6,7 @@
 include_recipe 'java' if node['rundeck_server']['install_java']
 
 package 'rundeck-cli' do
-	version node['rundeck_server']['cli']['version']
+  version node['rundeck_server']['cli']['version']
 end
 
 directory ::File.join(node['rundeck_server']['basedir'], '.rd') do
@@ -15,10 +15,10 @@ directory ::File.join(node['rundeck_server']['basedir'], '.rd') do
 end
 
 template 'rd.conf' do
-  path     ::File.join(node['rundeck_server']['basedir'], '.rd', 'rd.conf')
+  path ::File.join(node['rundeck_server']['basedir'], '.rd', 'rd.conf')
   variables(properties: node['rundeck_server']['cli']['config'])
   action :create
   sensitive true
-	owner 'rundeck'
+  owner 'rundeck'
   group 'rundeck'
 end
