@@ -13,7 +13,8 @@ end
 rundeck_server_project 'dummy-project' do
   executor :ssh
   sources [
-    { 'type'           => 'url',
+    {
+      'type'           => 'url',
       'config.url'     => 'http://localhost:9980/',
       'config.timeout' => 30
     }
@@ -38,7 +39,8 @@ rundeck_server_job 'dummy-job' do
       commands: [
         exec: 'Dummy command'
       ]
-    })
+    }
+  )
   only_if 'curl --silent --fail --insecure http://localhost:4440'
 end
 
@@ -46,7 +48,8 @@ end
 rundeck_server_project 'Test' do
   executor :ssh
   sources [
-    { 'type'           => 'url',
+    {
+      'type'           => 'url',
       'config.url'     => 'http://localhost:9980/',
       'config.timeout' => 30
     }

@@ -20,6 +20,11 @@ default['rundeck_server']['basedir'] = '/var/lib/rundeck'
 default['rundeck_server']['logdir']  = '/var/log/rundeck'
 default['rundeck_server']['datadir'] = '/var/rundeck'
 
+# The name of the optional encrypted databag to use to attain sensitive
+# information. Default: rundeck_server
+default['rundeck_server']['databag']['name'] = 'rundeck_server'
+default['rundeck_server']['databag']['item'] = 'secrets'
+
 # <> Default security-role/role-name allowed to authenticate
 default['rundeck_server']['rolename'] = 'user'
 # see https://github.com/rundeck/rundeck/wiki/Faq#i-get-an-error-logging-in-http-error-403--reason-role for more information

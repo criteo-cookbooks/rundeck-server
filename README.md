@@ -59,7 +59,7 @@ Name | Description | Default
 * `node['rundeck_server']['rundeck-config.framework']['framework.server.port']` |  |Defaults to `"4440"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.server.url']` |  |Defaults to `"http://localhost:4440"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.server.username']` |  |Defaults to `"admin"`.
-* `node['rundeck_server']['rundeck-config.framework']['framework.server.password']` |  |Defaults to `"admin"`.
+* `node['rundeck_server']['rundeck-config.framework']['framework.server.password']` | This should be replaced by values in the optional encrypted data bag |Defaults to `"admin"`.
 * `node['rundeck_server']['rundeck-config.framework']['rdeck.base']` |  |Defaults to `"/var/lib/rundeck"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.projects.dir']` |  |Defaults to `"/var/rundeck/projects"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.etc.dir']` |  |Defaults to `"/etc/rundeck"`.
@@ -70,7 +70,7 @@ Name | Description | Default
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.keypath']` |  |Defaults to `"/var/lib/rundeck/.ssh/id_rsa"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.user']` |  |Defaults to `"rundeck"`.
 * `node['rundeck_server']['rundeck-config.framework']['framework.ssh.timeout']` |  |Defaults to `"0"`.
-* `node['rundeck_server']['realm.properties']['admin']` | Admin User Password, Roles |Defaults to `"admin,user,admin,architect,deploy,build"`.
+* `node['rundeck_server']['realm.properties']['admin']` | Admin User Password, Roles. This should probably come from the optional encrypted databag. See example for details. |Defaults to `"admin,user,admin,architect,deploy,build"`.
 * `node['rundeck_server']['jaas']` | The JAAS login configuration file with one entry and multiple modules may be generated from this attribute. |Defaults to `"[ ... ]"`.
 * `node['rundeck_server']['aclpolicy']['admin']` | The admin ACL policy in YAML is generated from this attribute. |Defaults to `"[ ... ]"`.
 * `node['rundeck_server']['yum']['description']` |Rundeck yum resource parameter |Defaults to `"Rundeck Official Repo"`
@@ -81,6 +81,47 @@ Name | Description | Default
 * `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
 * `node['rundeck_server']['cli']['config']` |Parameters to configure Rundeck CLI for Rundeck 2.7.x . See [documentation](https://github.com/rundeck/rundeck-cli/blob/master/docs/configuration.md)|Defaults to `{ RD_URL: 'http://localhost:4440' }`
 * `node['rundeck_server']['cli']['version']` |Allows to dictate version of Rundeck CLI to install|Defaults to 1.0.4-1
+* `node['rundeck_server']['databag']['name']` |(Optional) Store sensitive configuration data|Defaults to `rundeck_server`
+* `node['rundeck_server']['databag']['item']` |(Optional) The single item in the encrypted data bag|Defaults to `secrets`
+
+# Data Bags
+
+Optinally, an encrypted data bag may be used. The data bag provides sensitive
+information that you may not want to store in regular node attributes. The data
+bag name should match the `node['rundeck_server']['databag']['name']` attribute.
+The single item that rests inside the data bag should have a name that matches the
+`node['rundeck_server']['databag']['item']` attribute,
+
+Currently, the items that may be stored in the encrypted data bag are:
+
+* rundeck-config.framework
+* rundeck-config.properties
+* jaas
+* realm.properties
+
+If included, the content of these items will update the attributes of the same
+name in the node `rundeck_server` attribute hash. If an value for any of these attributes
+duplicates values found in the original node attribute, the node attribute values
+will be replaced when applied to the configuration recipe. The actual attributes at
+the node level will not be changed.
+
+```
+{
+	"id" : "secrets",
+	"rundeck-config.framework" : {
+		"framework.server.username" : "admin",
+		"framework.server.password" : "admin"
+	},
+	"jaas" : [],
+	"rundeck-config.properties" : {},
+  "realm.properties" : {
+		"admin" : "MD5:21232f297a57a5a743894a0e4a801fc3,user,admin,architect,deploy,build"
+	}
+}
+```
+
+Note that these values will override the default node attributes during converge.
+Also note that the admin password above is "admin" hashed to MD5.
 
 # Recipes
 
