@@ -1,3 +1,8 @@
+1.3.1
+-----
+    * Bump the Rundeck CLI versioning to 1.0.5-1. 1.0.4-1 had a bug in it which
+      would not allow file-based configuration
+
 1.3.0
 -----
 
