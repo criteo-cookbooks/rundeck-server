@@ -103,7 +103,7 @@ default['rundeck_server']['realm.properties']['admin'] = 'admin,user,admin,archi
 default['rundeck_server']['cli']['config'] = {
   RD_URL: 'http://localhost:4440'
 }
-default['rundeck_server']['cli']['version'] = '1.0.4-1'
+default['rundeck_server']['cli']['version'] = '1.0.5-1'
 
 # <> The JAAS login configuration file with one entry and multiple modules may be generated from this attribute.
 default['rundeck_server']['jaas'] = [{
