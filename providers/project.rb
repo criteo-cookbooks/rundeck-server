@@ -51,7 +51,7 @@ action :create do
     group    'rundeck'
     mode     '0660'
     cookbook new_resource.cookbook
-    variables(properties:  properties)
+    variables(properties: properties)
   end
 end
 
