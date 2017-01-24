@@ -93,6 +93,7 @@ template 'rundeck-profile' do
   owner    'rundeck'
   group    'rundeck'
   mode     '0644'
+  sensitive true
   variables(basedir: node['rundeck_server']['basedir'],
             jvm:     node['rundeck_server']['jvm'])
   notifies :restart, 'service[rundeckd]', :delayed
@@ -104,6 +105,7 @@ template 'rundeck-framework-properties' do
   owner    'rundeck'
   group    'rundeck'
   mode     '0644'
+  sensitive true
   variables(properties: node['rundeck_server']['rundeck-config.framework'])
   notifies :restart, 'service[rundeckd]'
 end
@@ -114,6 +116,7 @@ template 'realm.properties' do
   owner    'rundeck'
   group    'rundeck'
   mode     '0644'
+  sensitive true
   variables(properties: node['rundeck_server']['realm.properties'])
   notifies :restart, 'service[rundeckd]'
 end
