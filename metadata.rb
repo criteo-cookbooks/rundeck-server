@@ -7,7 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.3.2'
 supports         'centos'
 
-depends          'yum'
+depends          'yum', '< 5.0.0' # still uses yum_repositories from yum
 depends          'java'
 
 suggests         'rundeck-bridge'
