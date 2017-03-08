@@ -81,7 +81,7 @@ end
 def get_job(client, project, name)
   require 'yaml'
   # export the job in YAML
-  job = client.export_jobs(project, 'yaml', opts.merge(query: { 'jobFilter' => name }))
+  job = client.export_jobs(project, 'yaml', opts.merge(query: { 'jobExactFilter' => name }))
   # return the parsed YAML
   YAML.load(job).first
 end
