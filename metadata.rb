@@ -4,7 +4,7 @@ maintainer_email 'r.veznaver@criteo.com'
 license          'Apache License 2.0'
 description      'Installs rundeck and configure as needed'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.3.2'
+version          '1.3.4'
 supports         'centos'
 
 depends          'yum', '< 5.0.0' # still uses yum_repositories from yum
