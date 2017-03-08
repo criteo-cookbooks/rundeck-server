@@ -9,12 +9,16 @@ def load_current_resource
   @current_resource.project(@new_resource.project)
 end
 
+def job_group(new_resource)
+  new_resource.config['group'] || new_resource.config[:group]
+end
+
 action :create do
   require 'rundeck'
   require 'yaml'
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
-  job = get_job(client, @current_resource.project, @current_resource.name)
+  job = get_job(client, @current_resource.project, @current_resource.name, job_group(@new_resource))
 
   updated_job = stringify(@new_resource.config.dup)
 
@@ -56,7 +60,7 @@ action :delete do
   require 'rundeck'
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
-  job = get_job(client, @current_resource.project, @current_resource.name)
+  job = get_job(client, @current_resource.project, @current_resource.name, job_group(@new_resource))
 
   if job
     converge_by "delete job #{@current_resource.project}/#{@current_resource.name}" do
@@ -78,10 +82,14 @@ def opts
 end
 
 # Get a job hash by project and name
-def get_job(client, project, name)
+def get_job(client, project, name, group)
   require 'yaml'
   # export the job in YAML
-  job = client.export_jobs(project, 'yaml', opts.merge(query: { 'jobExactFilter' => name }))
+  groupFilter = group || '-'
+    job = client.export_jobs(project,
+                             'yaml',
+                             opts.merge(query: { 'jobExactFilter' => name, 'groupPathExact' => groupFilter })
+                            )
   # return the parsed YAML
   YAML.load(job).first
 end
