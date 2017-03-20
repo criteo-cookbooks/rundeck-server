@@ -1,0 +1,15 @@
+{
+  "id": "admin",
+  "password": {
+    "encrypted_data": "8murjDtOKxHXB7rk3HpUBvNlZt0tK3a+76CDChPW4Hw=\n",
+    "iv": "/0xupLSaWVvg0tpINVqwxg==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "groups": {
+    "encrypted_data": "3r0+/7r26gHRxWl9XK9smaWPyaZrVOs0HKFTwtRsXYYjxtm5oeg5/PQSmyPh\nr5U9ud1prdnLc9MFSaSZbuKDfA==\n",
+    "iv": "wTuyQyJKuHrpq2Eh6gpvfA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

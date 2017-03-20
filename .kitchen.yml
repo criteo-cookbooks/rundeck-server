@@ -19,6 +19,18 @@ suites:
       - recipe[rundeck-server]
       - recipe[rundeck-server::install_cli]
 
+  - name: server-data_bag
+    data_bags_path: 'test/data_bags'
+    encrypted_data_bag_secret_key_path: "test/encrypted_data_bag_secret"
+    run_list:
+      - recipe[rundeck-server]
+      - recipe[rundeck-server::install_cli]
+    attributes:
+      rundeck_server:
+        data_bag:
+          realm_user: rundeck_users
+          cli_user: rundeck_cli
+
   - name: job
     attributes:
       rundeck_server:

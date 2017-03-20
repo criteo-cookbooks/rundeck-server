@@ -1,0 +1,15 @@
+{
+  "id": "rundeck-cli",
+  "username": {
+    "encrypted_data": "2S+YUnoL0SoVPtjRm292lNCvGjs/LlDirDtnc/DqBxI=\n",
+    "iv": "VH135Xhb3CTZtkinQYv/pA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "password": {
+    "encrypted_data": "eh3ZTwkA/FB2FcBZN80pTgtoTx8mCsZqCKKKWiYXEBM=\n",
+    "iv": "hw7ApcT949D7itSSbUjkZA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}
