@@ -3,6 +3,12 @@
 # Attributes: default
 #
 
+# Optional encrypted data bag to manage realm users credentials
+default['rundeck_server']['data_bag']['realm_users'] = nil
+
+# Optional encrypted data bag to manage cli user's credentials
+default['rundeck_server']['data_bag']['cli_user'] = nil
+
 # Java 8 is needed for RunDeck 2.7.x, Rundeck author suggests Java 7 and below
 # is now deprecated in terms of support
 default['rundeck_server']['install_java'] = true

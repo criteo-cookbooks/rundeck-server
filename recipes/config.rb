@@ -99,6 +99,14 @@ template 'rundeck-profile' do
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
+framework_properties = node['rundeck_server']['rundeck-config.framework'].to_h
+
+unless node['rundeck_server']['data_bag']['cli_user'].nil?
+  cli = data_bag_item(node['rundeck_server']['data_bag']['cli_user'], 'rundeck-cli')
+  framework_properties['framework.server.username'] = cli['username']
+  framework_properties['framework.server.password'] = cli['password']
+end
+
 template 'rundeck-framework-properties' do
   path     ::File.join(node['rundeck_server']['confdir'], 'framework.properties')
   source   'properties.erb'
@@ -106,8 +114,19 @@ template 'rundeck-framework-properties' do
   group    'rundeck'
   mode     '0644'
   sensitive true
-  variables(properties: node['rundeck_server']['rundeck-config.framework'])
+  variables(properties: framework_properties)
   notifies :restart, 'service[rundeckd]'
+end
+
+realm_properties = node['rundeck_server']['realm.properties']
+
+unless node['rundeck_server']['data_bag']['realm_users'].nil?
+  realm_properties = {}
+  data_bag_name = node['rundeck_server']['data_bag']['realm_users']
+  data_bag(data_bag_name).each do |item|
+    user = data_bag_item(data_bag_name, item)
+    realm_properties[item] = "#{user['password']}," + user['groups'].join(',')
+  end
 end
 
 template 'realm.properties' do
@@ -117,7 +136,7 @@ template 'realm.properties' do
   group    'rundeck'
   mode     '0644'
   sensitive true
-  variables(properties: node['rundeck_server']['realm.properties'])
+  variables(properties: realm_properties)
   notifies :restart, 'service[rundeckd]'
 end
 
