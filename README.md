@@ -20,6 +20,8 @@ Installs rundeck and configure as needed
 
 Name | Description | Default
 -----|-------------|--------
+* `node['rundeck_server']['data_bag']['realm_users']` |Optional encrypted data bag to manage realm users credentials |Defaults to `nil`.
+* `node['rundeck_server']['data_bag']['cli_user']` |Optional encrypted data bag to manage CLI user's credentials |Defaults to `nil`.
 * `node['rundeck_server']['install_java']` |Installs Java |Defaults to `true`.
 * `node['rundeck_server']['packages']`|A hash of package name and version to install |Defaults to `2.5.3-1.10.GA`.
 * `node['rundeck_server']['confdir']` |  |Defaults to `"/etc/rundeck"`.
@@ -81,6 +83,72 @@ Name | Description | Default
 * `node['rundeck_server']['yum']['action']` |Rundeck yum resource parameter |Defaults to `:create`
 * `node['rundeck_server']['cli']['config']` |Parameters to configure Rundeck CLI for Rundeck 2.7.x . See [documentation](https://github.com/rundeck/rundeck-cli/blob/master/docs/configuration.md)|Defaults to `{ RD_URL: 'http://localhost:4440' }`
 * `node['rundeck_server']['cli']['version']` |Allows to dictate version of Rundeck CLI to install|Defaults to 1.0.4-1
+
+# Data Bags
+
+These optionals data bags are available to manage :
+
+- Rundeck Realm users credentials
+- Rundeck CLI user credential
+
+They can be helpful to encrypt sensitive data.
+
+You must specify the name of data bags you want to use in the following attributes :
+
+* `node['rundeck_server']['data_bag']['realm_users']`
+* `node['rundeck_server']['data_bag']['cli_user']`
+
+## Realm Users Data Bag
+
+It will replaces the following attribute during config recipe :
+* `node['rundeck_server']['realm.properties']['admin']`
+
+### Databag Definition
+
+A sample Realm user object would look like:
+```json
+{
+  "id": "admin",
+  "password": "admin",
+  "groups": [
+    "user",
+    "admin",
+    "architect",
+    "deploy",
+    "build"
+   ]
+}
+
+```
+### Databag Key Definitions
+
+- `id`: _String_ specifies the username, as well as the data bag object id.
+- `password`: _String_ specifies the realm user's password.
+- `groups`: _Array_ an array of groups that the realm user will be added to.
+
+## CLI User Data Bag
+
+This data bag should contains only one item named _rundeck-cli_.
+
+It will replaces the following attributes during config recipe :
+* `node['rundeck_server']['rundeck-config.framework']['framework.server.username']`
+* `node['rundeck_server']['rundeck-config.framework']['framework.server.password']`
+
+### Databag Definition
+
+A sample CLI user object would look like:
+```json
+{
+  "id": "rundeck-cli",
+  "username": "admin",
+  "password": "admin"
+}
+```
+### Databag Key Definitions
+
+- `id`: _String_ specifies data bag object id, must be _rundeck-cli_.
+- `username`: _String_ specifies the rundeck CLI username.
+- `password`: _String_ specifies the rundeck CLI user's password.
 
 # Recipes
 
