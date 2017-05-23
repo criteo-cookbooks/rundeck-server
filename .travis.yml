@@ -9,7 +9,7 @@ deploy:
   client_key: ".travis/client.pem"
   on:
     tags: true
-    all_branches: true
+    branch: master
 before_deploy:
 - openssl aes-256-cbc -K $encrypted_7a37245e4386_key -iv $encrypted_7a37245e4386_iv
   -in .travis/client.pem.enc -out .travis/client.pem -d
