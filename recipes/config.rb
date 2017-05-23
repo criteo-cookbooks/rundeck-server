@@ -5,7 +5,7 @@
 # Install RunDeck plugins
 unless node['rundeck_server']['plugins'].nil?
   node['rundeck_server']['plugins'].each do |name, source|
-    extension = File.extname(source)
+    extension = source['extension'] || File.extname(source['url'])
     remote_file name do
       source   source['url']
       path     "#{node['rundeck_server']['basedir']}/libext/#{name}#{extension}"
