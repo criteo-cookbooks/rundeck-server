@@ -24,4 +24,7 @@ rundeck_server_project 'test-project-custom' do
       'config.timeout' => 30
     }
   ]
+  properties({
+    'foo': 'bar',
+  })
 end

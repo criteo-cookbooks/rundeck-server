@@ -148,6 +148,7 @@ project provider configures a rundeck project
 - name: Name of the project
 - executor: Executor name + configuration. Could be a plain string (ssh) or complex hash configuration. Defaults to <code>:ssh</code>.
 - sources: List of node sources
+- properties: Hash of properties
 - cookbook:  Defaults to <code>"rundeck-server"</code>.
 
 ### Examples
@@ -169,7 +170,10 @@ project provider configures a rundeck project
         'config.url'      => "http://url,
         'config.timeout'  => 30,
         'config.cache'    => true,
-      }])
+       }])
+       properties({
+        'project.plugin.notification.PluginFoo.team' => 'bar',
+       })
      end
 
      # ssh example
