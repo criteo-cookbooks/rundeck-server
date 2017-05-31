@@ -10,9 +10,9 @@ action :create do
     end
   end
 
-  properties = {
-    'project.name' => new_resource.name
-  }
+  properties = {}
+  properties.merge(new_resource.properties)
+  properties['project.name'] = new_resource.name
 
   executor = new_resource.executor
   if executor.is_a? Symbol

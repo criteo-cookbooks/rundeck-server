@@ -24,7 +24,10 @@ project provider configures a rundeck project
         'config.url'      => "http://url,
         'config.timeout'  => 30,
         'config.cache'    => true
-      }])
+       }])
+       properties({
+        'project.plugin.notification.PluginFoo.team' => 'bar',
+       })
      end
 
      # ssh example
@@ -74,6 +77,12 @@ attribute :sources,
               sources.all? { |source| source['type'] || source[:type] }
             end
           })
+
+# <> @attribute properties Hash of project properties
+attribute :properties,
+          kind_of: Hash,
+          required: false,
+          default: {}
 
 attribute :cookbook,
           kind_of: String,
