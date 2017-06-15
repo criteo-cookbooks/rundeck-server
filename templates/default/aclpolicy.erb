@@ -5,5 +5,5 @@
 <%# Older versions of Pysch (YAML dumper) put an exclamation mark in front %>
 <%# of quoted strings (https://github.com/tenderlove/psych/issues/155).    %>
 <%# The gsub removes any occurance of ! with a space in front of a '.      %>
-<%= policy.to_hash.to_yaml.gsub("! '", "'") %>
+<%= convert_to_hash(policy).to_yaml.gsub("! '", "'") %>
 <% end %>
