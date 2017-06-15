@@ -34,6 +34,7 @@ node['rundeck_server']['aclpolicy'].each do |policy, configuration|
     path     "#{node['rundeck_server']['confdir']}/#{policy}.aclpolicy"
     source   'aclpolicy.erb'
     variables(conf: configuration)
+    helpers(MashToHash)
     action   :create
     not_if   { configuration.nil? }
   end
