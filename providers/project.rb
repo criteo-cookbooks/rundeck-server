@@ -11,7 +11,7 @@ action :create do
   end
 
   properties = {}
-  properties.merge(new_resource.properties)
+  properties.merge!(new_resource.properties)
   properties['project.name'] = new_resource.name
 
   executor = new_resource.executor
