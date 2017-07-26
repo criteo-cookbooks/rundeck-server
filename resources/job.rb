@@ -25,8 +25,6 @@ Manage rundeck jobs through rundeck api
 #>
 =end
 
-actions :create, :delete
-
 # <> @property name Name of the job, will be used to identify the job when interacting with rundeck.
 property :name,      name_property:  true, regex: /^[-_+.a-zA-Z0-9() ]+$/
 # <> @property project Project in which the job will be defined

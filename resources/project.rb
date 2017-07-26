@@ -43,9 +43,6 @@ project provider configures a rundeck project
 #>
 =end
 
-actions :create, :delete
-default_action :create
-
 # <> @property name Name of the project
 property :name,
           kind_of: String,
