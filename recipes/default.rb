@@ -18,6 +18,13 @@ service 'rundeckd' do
   action [:enable, :start]
 end
 
+
+execute 'ensure api is up' do
+  command 'curl -s -f http://localhost:4440'
+  retries 10
+  retry_delay 30
+end
+
 # Install rundeck gem for API communication
 chef_gem 'rundeck' do
   version '>= 1.1.0'

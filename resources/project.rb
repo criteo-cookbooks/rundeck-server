@@ -46,14 +46,14 @@ project provider configures a rundeck project
 actions :create, :delete
 default_action :create
 
-# <> @attribute name Name of the project
-attribute :name,
+# <> @property name Name of the project
+property :name,
           kind_of: String,
-          name_attribute: true,
+          name_property: true,
           regex: /^[-_+.a-zA-Z0-9]+$/
 
-# <> @attribute executor Executor name + configuration. Could be a plain string (ssh) or complex hash configuration.
-attribute :executor,
+# <> @property executor Executor name + configuration. Could be a plain string (ssh) or complex hash configuration.
+property :executor,
           kind_of: [Symbol, Hash],
           default: :ssh,
           callbacks: ({
@@ -65,8 +65,8 @@ attribute :executor,
             end
           })
 
-# <> @attribute sources List of node sources
-attribute :sources,
+# <> @property sources List of node sources
+property :sources,
           kind_of: Array,
           required: true,
           callbacks: ({
@@ -78,12 +78,74 @@ attribute :sources,
             end
           })
 
-# <> @attribute properties Hash of project properties
-attribute :properties,
+# <> @property properties Hash of project properties
+property :properties,
           kind_of: Hash,
           required: false,
           default: {}
 
-attribute :cookbook,
+property :cookbook,
           kind_of: String,
           default: 'rundeck-server'
+
+action :create do
+  %w(etc var).each do |d|
+    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, d) do
+      user  'rundeck'
+      group 'rundeck'
+      mode '0770'
+      recursive true
+    end
+  end
+
+  properties = {}
+  properties.merge!(new_resource.properties)
+  properties['project.name'] = new_resource.name
+
+  executor = new_resource.executor
+  if executor.is_a? Symbol
+    # Template executor config
+    case executor
+    when :ssh
+      executor = {
+        provider: 'jsch-ssh',
+        config: {
+          'ssh-authentication'  => 'privateKey',
+          'ssh-keypath'         => "#{node['rundeck_server']['basedir']}/.ssh/id_rsa"
+        }
+      }
+    when :winrm
+      fail 'WinRM template not yet supported'
+    else
+      fail "Unknown executor template: #{new_resource.executor}"
+    end
+  end
+
+  properties['service.NodeExecutor.default.provider'] = executor[:provider] || executor['provider']
+  (executor[:config] || executor['config']).each do |key, value|
+    properties["project.#{key}"] = value
+  end
+
+  new_resource.sources.each_with_index do |source, i|
+    source.each do |k, v|
+      properties["resources.source.#{i + 1}.#{k}"] = v
+    end
+  end
+  properties['service.FileCopier.default.provider'] = 'jsch-scp'
+
+  template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'project.properties') do
+    source   'properties.erb'
+    user     'rundeck'
+    group    'rundeck'
+    mode     '0660'
+    cookbook new_resource.cookbook
+    variables(properties: properties)
+  end
+end
+
+action :delete do
+  directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name) do
+    recursive true
+    action :delete
+  end
+end

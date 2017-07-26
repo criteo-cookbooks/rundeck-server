@@ -34,9 +34,9 @@ describe 'rundeck-test::job' do
       job = { 'name' => 'test-job2', 'id' => 'abcde' }
       yaml = [job].to_yaml
       client = double('rundeck-client')
-      expect(Rundeck).to receive(:client) { client }
+      expect(Rundeck::Client).to receive(:new).and_return(client)
       expect(client).to receive(:export_jobs).with('project', 'yaml', kind_of(Hash)) { yaml }
-      expect(client).to receive(:import_jobs) { response }
+      expect(client).to receive(:import_jobs).and_return(response)
       chef_run # evaluate chef_run
     end
   end
@@ -46,7 +46,7 @@ describe 'rundeck-test::job' do
       job = { 'name' => 'test-job', 'id' => 'abcde', 'uuid' => 'abcde' }
       yaml = [job].to_yaml
       client = double('rundeck-client')
-      expect(Rundeck).to receive(:client) { client }
+      expect(Rundeck::Client).to receive(:new).and_return(client)
       expect(client).to receive(:export_jobs).with('project', 'yaml', kind_of(Hash)) { yaml }
       expect(client).to receive(:import_jobs).with(
         "- description: ''\n  loglevel: INFO\n  sequence:\n    commands:\n    - exec: a command\n  name: test-job\n  project: project\n  uuid: abcde\n",
@@ -62,7 +62,7 @@ describe 'rundeck-test::job' do
       client = double('rundeck-client')
       job = { 'uuid' => 'abcde', 'description' => '', 'loglevel' => 'INFO', 'sequence' => { 'commands' => [{ 'exec' => 'a command' }] }, 'name' => 'test-job', 'project' => 'project' }
       yaml = [job].to_yaml
-      expect(Rundeck).to receive(:client) { client }
+      expect(Rundeck::Client).to receive(:new).and_return(client)
       expect(client).to receive(:export_jobs).with('project', 'yaml', kind_of(Hash)) { yaml }
       expect(client).not_to receive(:import_jobs)
       chef_run # evaluate chef_run
