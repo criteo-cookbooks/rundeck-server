@@ -20,7 +20,7 @@ end
 
 
 execute 'ensure api is up' do
-  command 'curl -s -f http://localhost:4440'
+  command "curl -s -f #{node['rundeck_server']['rundeck-config.framework']['framework.server.url']}"
   retries 10
   retry_delay 30
 end
