@@ -2,6 +2,7 @@ language: ruby
 rvm:
 - 2.4.0
 deploy:
+  skip_cleanup: true
   edge: true
   provider: chef-supermarket
   user_id: criteo

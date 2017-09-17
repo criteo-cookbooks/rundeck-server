@@ -24,5 +24,5 @@ task :test_kitchen do
 end
 
 tasks = [:foodcritic, :rspec]
-tasks << :test_kitchen if ENV['encrypted_5b96b54c695c_iv']
+#tasks << :test_kitchen if ENV['encrypted_5b96b54c695c_iv']
 task default: tasks
