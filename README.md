@@ -185,6 +185,13 @@ project provider configures a rundeck project
         'config.timeout'  => 30,
         'config.cache'    => true,
       }])
+      scm_import(
+        'config.strictHostKeyChecking' => 'no',
+        'roles.0' => myrole,
+        'roles.count' => 1,
+        'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
+        'trackedItems.count' => 0,
+        'config.sshPrivateKeyPath' => 'keys/mykey')
      end
 
 Mysql conf example

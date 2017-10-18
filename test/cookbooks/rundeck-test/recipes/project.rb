@@ -27,4 +27,5 @@ rundeck_server_project 'test-project-custom' do
   properties({
     'foo': 'bar',
   })
+  scm_import('config.strictHostKeyChecking' => 'no')
 end

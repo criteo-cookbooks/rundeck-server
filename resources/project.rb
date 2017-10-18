@@ -39,6 +39,12 @@ project provider configures a rundeck project
         'config.timeout'  => 30,
         'config.cache'    => true
       }])
+      scm_import('config.strictHostKeyChecking' => 'no',
+        'roles.0' => myrole,
+        'roles.count' => 1,
+        'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
+        'trackedItems.count' => 0,
+        'config.sshPrivateKeyPath' => 'keys/mykey')
      end
 #>
 =end
@@ -61,6 +67,12 @@ property :executor,
               executor.is_a?(Symbol) || (executor['config'] || executor[:config]).is_a?(Hash)
             end
           })
+
+# <> @property scm-import setting of the project
+property :scm_import,
+          kind_of: [FalseClass, Hash],
+          required: false,
+          default: false
 
 # <> @property sources List of node sources
 property :sources,
@@ -121,6 +133,41 @@ action :create do
   properties['service.NodeExecutor.default.provider'] = executor[:provider] || executor['provider']
   (executor[:config] || executor['config']).each do |key, value|
     properties["project.#{key}"] = value
+  end
+
+  # configure scm_import
+  if new_resource.scm_import
+    scm_import = {}
+    scm_import['scm.import.type'] = 'git-import'
+    scm_import['scm.import.username'] = 'rundeck'
+    scm_import['scm.import.config.branch'] = 'master'
+    scm_import['scm.import.config.strictHostKeyChecking'] = 'yes'
+    scm_import['scm.import.config.pathTemplate'] = '${job.group}${job.name}-${job.id}.${config.format}'
+    scm_import['scm.import.config.dir'] = ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm')
+    scm_import['scm.import.config.format'] = 'yaml'
+    scm_import['scm.import.config.useFilePattern'] = true
+    scm_import['scm.import.config.importUuidBehavior'] = 'preserve'
+    scm_import['scm.import.config.filePattern'] = '.*\\.yaml'
+    scm_import['scm.import.config.fetchAutomatically'] = true
+    scm_import['scm.import.config.enabled'] = true
+    new_resource.scm_import.each do |k, v|
+      scm_import["scm.import.#{k}"] = v
+    end
+
+    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm') do
+      user     'rundeck'
+      group    'rundeck'
+      mode     '0770'
+    end
+
+    template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'scm-import.properties') do
+      source   'properties.erb'
+      user     'rundeck'
+      group    'rundeck'
+      mode     '0660'
+      cookbook new_resource.cookbook
+      variables(properties: scm_import)
+    end
   end
 
   new_resource.sources.each_with_index do |source, i|
