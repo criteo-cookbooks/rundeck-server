@@ -45,6 +45,11 @@ project provider configures a rundeck project
         'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
         'trackedItems.count' => 0,
         'config.sshPrivateKeyPath' => 'keys/mykey')
+      scm_export('config.strictHostKeyChecking' => 'no',
+        'roles.0' => myrole,
+        'roles.count' => 1,
+        'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
+        'config.sshPrivateKeyPath' => 'keys/mykey')
      end
 #>
 =end
@@ -70,9 +75,13 @@ property :executor,
 
 # <> @property scm-import setting of the project
 property :scm_import,
-          kind_of: [FalseClass, Hash],
-          required: false,
-          default: false
+          kind_of: Hash,
+          required: false
+
+# <> @property scm-export setting of the project
+property :scm_export,
+          kind_of: Hash,
+          required: false
 
 # <> @property sources List of node sources
 property :sources,
@@ -135,6 +144,43 @@ action :create do
     properties["project.#{key}"] = value
   end
 
+  if new_resource.scm_import || new_resource.scm_export
+    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm') do
+      user     'rundeck'
+      group    'rundeck'
+      mode     '0770'
+    end
+  end
+
+  # configure scm_export
+  if new_resource.scm_export
+    scm_export = {}
+    scm_export['scm.export.type'] = 'git-export'
+    scm_export['scm.export.username'] = 'rundeck'
+    scm_export['scm.export.config.branch'] = 'master'
+    scm_export['scm.export.config.strictHostKeyChecking'] = 'yes'
+    scm_export['scm.export.config.pathTemplate'] = '${job.group}${job.name}-${job.id}.${config.format}'
+    scm_export['scm.export.config.dir'] = ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm')
+    scm_export['scm.export.config.format'] = 'yaml'
+    scm_export['scm.export.config.importUuidBehavior'] = 'preserve'
+    scm_export['scm.export.config.fetchAutomatically'] = true
+    scm_export['scm.export.enabled'] = true
+    scm_export['scm.export.config.committerEmail'] = '${user.email}'
+    scm_export['scm.export.config.committerName'] = '${user.fullName}'
+    new_resource.scm_export.each do |k, v|
+      scm_export["scm.export.#{k}"] = v
+    end
+
+    template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'scm-export.properties') do
+      source   'properties.erb'
+      user     'rundeck'
+      group    'rundeck'
+      mode     '0660'
+      cookbook new_resource.cookbook
+      variables(properties: scm_export)
+    end
+  end
+
   # configure scm_import
   if new_resource.scm_import
     scm_import = {}
@@ -145,19 +191,13 @@ action :create do
     scm_import['scm.import.config.pathTemplate'] = '${job.group}${job.name}-${job.id}.${config.format}'
     scm_import['scm.import.config.dir'] = ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm')
     scm_import['scm.import.config.format'] = 'yaml'
-    scm_import['scm.import.config.useFilePattern'] = true
     scm_import['scm.import.config.importUuidBehavior'] = 'preserve'
-    scm_import['scm.import.config.filePattern'] = '.*\\.yaml'
     scm_import['scm.import.config.fetchAutomatically'] = true
-    scm_import['scm.import.config.enabled'] = true
+    scm_import['scm.import.enabled'] = true
+    scm_import['scm.import.config.useFilePattern'] = true
+    scm_import['scm.import.config.filePattern'] = '.*\\\.yaml'
     new_resource.scm_import.each do |k, v|
       scm_import["scm.import.#{k}"] = v
-    end
-
-    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm') do
-      user     'rundeck'
-      group    'rundeck'
-      mode     '0770'
     end
 
     template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'scm-import.properties') do

@@ -192,6 +192,11 @@ project provider configures a rundeck project
         'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
         'trackedItems.count' => 0,
         'config.sshPrivateKeyPath' => 'keys/mykey')
+      scm_export('config.strictHostKeyChecking' => 'no',
+        'roles.0' => myrole,
+        'roles.count' => 1,
+        'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
+        'config.sshPrivateKeyPath' => 'keys/mykey')
      end
 
 Mysql conf example
