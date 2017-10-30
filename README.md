@@ -98,6 +98,7 @@ It also install rundeck gem to allow to configure rundeck via ruby
 
 * [rundeck-server_job](#rundeck-server_job)
 * [rundeck-server_project](#rundeck-server_project)
+* [rundeck-server_key](#rundeck-server_key)
 
 ## rundeck-server_job
 
@@ -186,6 +187,31 @@ project provider configures a rundeck project
         'config.cache'    => true,
       }])
      end
+
+## rundeck-server_key
+
+Manage rundeck storage keys through rundeck api
+
+### Actions
+
+- create: Create and update rundeck storage key. Default action.
+- delete: Delete the storage key.
+
+### Attribute Parameters
+
+- key: Name of the key, will be used to identify the storage key when interacting with rundeck.
+- type: Storage key type. Possible values 'public', 'private'.
+- content: Storage key content inline.
+- endpoint:  Defaults to <code>"https://localhost:4440"</code>.
+- api_token: Token used to interact with the api. See rundeck documentation to generate a token.
+
+### Examples
+
+    rundeck_server_key 'mykey' do
+      type 'private'
+      content '---START.....'
+      api_token 'myticket''
+    end
 
 Mysql conf example
 ------------------

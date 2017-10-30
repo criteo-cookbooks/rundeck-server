@@ -65,3 +65,15 @@ node['rundeck_test']['jobs'].map do |project, jobs|
     end
   end
 end
+
+# Create a dummy key
+#
+# Will create a storage key on the first converge
+#
+rundeck_server_key 'testkey' do
+  type 'private'
+  content 'mykeycontent'
+  api_token 'dummy-token'
+  endpoint  'http://localhost:4440'
+  only_if 'curl --silent --fail --insecure http://localhost:4440'
+end
