@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+<% @nodes.each do |val| %>
+    <node name="<%= val['name'] %>" description="<%= val['description'] %>" tags="<%= val['tags'] %>" hostname="<%= val['hostname'] %>" osArch="<%= val['osArch'] %>" osFamily="<%= val['osFamily'] %>" osName="<%= val['osName'] %>" osVersion="<%= val['osVersion'] %>" username="rundeck"/>
+<% end %>
+</project>

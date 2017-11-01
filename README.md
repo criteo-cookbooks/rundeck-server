@@ -197,6 +197,15 @@ project provider configures a rundeck project
         'roles.count' => 1,
         'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
         'config.sshPrivateKeyPath' => 'keys/mykey')
+      nodes [{'name' => 'node1',
+        'description' => 'node1',
+        'tags' => '',
+        'hostname' => 'node1.internal',
+        'osArch' => 'amd64',
+        'osFamily' => 'unix',
+        'osName' => 'Linux',
+        'osVersion' => '3.10.0-327.el7.x86_64'}
+      ]
      end
 
 Mysql conf example

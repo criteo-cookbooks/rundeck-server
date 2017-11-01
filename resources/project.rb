@@ -50,6 +50,15 @@ project provider configures a rundeck project
         'roles.count' => 1,
         'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
         'config.sshPrivateKeyPath' => 'keys/mykey')
+        nodes [{'name' => 'node1',
+                'description' => 'node1',
+                'tags' => '',
+                'hostname' => 'node1.internal',
+                'osArch' => 'amd64',
+                'osFamily' => 'unix',
+                'osName' => 'Linux',
+                'osVersion' => '3.10.0-327.el7.x86_64'}
+            ]
      end
 #>
 =end
@@ -82,6 +91,12 @@ property :scm_import,
 property :scm_export,
           kind_of: Hash,
           required: false
+
+# <> @property nodes setting of the project
+property :nodes,
+          kind_of: Array,
+          required: false,
+          default: []
 
 # <> @property sources List of node sources
 property :sources,
@@ -214,6 +229,7 @@ action :create do
     source.each do |k, v|
       properties["resources.source.#{i + 1}.#{k}"] = v
     end
+    properties["resources.source.#{i + 1}.config.file"] = ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'resources.xml')
   end
   properties['service.FileCopier.default.provider'] = 'jsch-scp'
 
@@ -224,6 +240,15 @@ action :create do
     mode     '0660'
     cookbook new_resource.cookbook
     variables(properties: properties)
+  end
+
+  template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'resources.xml') do
+    source   'resources.xml.erb'
+    user     'rundeck'
+    group    'rundeck'
+    mode     '0660'
+    cookbook new_resource.cookbook
+    variables(nodes: new_resource.nodes)
   end
 end
 
