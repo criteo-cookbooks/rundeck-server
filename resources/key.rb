@@ -33,7 +33,6 @@ action :create do
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
   if key_exists?(client, @new_resource.key)
-    Chef::Log.warn("Storage key #{@new_resource.key} already exists, updating...")
     converge_by "Update storage key #{@new_resource.key}" do
       begin
         case @new_resource.type
@@ -74,7 +73,6 @@ action :delete do
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
   if key_exists?(client, @new_resource.key)
-    Chef::Log.warn("Storage key #{@new_resource.key} already exists, updating...")
     converge_by "Delete storage key #{@new_resource.key}" do
       begin
         response = client.delete_key(@new_resource.key)
@@ -83,9 +81,6 @@ action :delete do
       end
       Chef::Log.debug('Result: ' + response.inspect)
     end
-
-  else
-    Chef::Log.warn("Storage key #{@new_resource.key} doesn't exists!")
   end
 end
 
