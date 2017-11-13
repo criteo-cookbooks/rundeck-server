@@ -35,11 +35,11 @@ action :create do
   if key_exists?(client, @new_resource.key)
     converge_by "Update storage key #{@new_resource.key}" do
       begin
-        case @new_resource.type
+        response = case @new_resource.type
         when :private
-          response = client.update_private_key(@new_resource.key, @new_resource.content)
+          client.update_private_key(@new_resource.key, @new_resource.content)
         when :public
-          response = client.update_public_key(@new_resource.key, @new_resource.content)
+          client.update_public_key(@new_resource.key, @new_resource.content)
         else
          fail 'Supported types: [:private, :public]'
         end
@@ -52,11 +52,11 @@ action :create do
   else
     converge_by "Create storage key #{@new_resource.key}" do
       begin
-        case @new_resource.type
+        response = case @new_resource.type
         when :private
-          response = client.create_private_key(@new_resource.key, @new_resource.content)
+          client.create_private_key(@new_resource.key, @new_resource.content)
         when :public
-          response = client.create_public_key(@new_resource.key, @new_resource.content)
+          client.create_public_key(@new_resource.key, @new_resource.content)
         else
          fail 'Supported types: [:private, :public]'
         end

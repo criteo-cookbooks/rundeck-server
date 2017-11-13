@@ -200,7 +200,7 @@ Manage rundeck storage keys through rundeck api
 ### Attribute Parameters
 
 - key: Name of the key, will be used to identify the storage key when interacting with rundeck.
-- type: Storage key type. Possible values 'public', 'private'.
+- type: Storage key type. Possible values :public, :private.
 - content: Storage key content inline.
 - endpoint:  Defaults to <code>"https://localhost:4440"</code>.
 - api_token: Token used to interact with the api. See rundeck documentation to generate a token.
@@ -208,7 +208,7 @@ Manage rundeck storage keys through rundeck api
 ### Examples
 
     rundeck_server_key 'mykey' do
-      type 'private'
+      type :private
       content '---START.....'
       api_token 'myticket''
     end
