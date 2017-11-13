@@ -71,7 +71,7 @@ end
 # Will create a storage key on the first converge
 #
 rundeck_server_key 'testkey' do
-  type 'private'
+  type :private
   content 'mykeycontent'
   api_token 'dummy-token'
   endpoint  'http://localhost:4440'

@@ -19,8 +19,8 @@ Manage rundeck key storage through rundeck api
 
 # <> @property path to key
 property :key,    kind_of: String, name_property:  true
-# <> @property tyoe of key. Can be 'private', 'public'
-property :type,      kind_of: String, required: true
+# <> @property type of key. Can be 'private', 'public'
+property :type,     kind_of: Symbol, required: true, default: :public, equal_to: [:public, :private]
 # <> @property key data
 property :content,    kind_of: String, required: false
 # <> @property endpoint
@@ -37,12 +37,12 @@ action :create do
     converge_by "Update storage key #{@new_resource.key}" do
       begin
         case @new_resource.type
-        when 'private'
+        when :private
           response = client.update_private_key(@new_resource.key, @new_resource.content)
-        when 'public'
+        when :public
           response = client.update_public_key(@new_resource.key, @new_resource.content)
         else
-         fail 'Supported types: [private, public]'
+         fail 'Supported types: [:private, :public]'
         end
       rescue Rundeck::Error::Forbidden
         fail "Forbidden access to #{client.endpoint} with api token '#{client.api_token}'"
@@ -54,12 +54,12 @@ action :create do
     converge_by "Create storage key #{@new_resource.key}" do
       begin
         case @new_resource.type
-        when 'private'
+        when :private
           response = client.create_private_key(@new_resource.key, @new_resource.content)
-        when 'public'
+        when :public
           response = client.create_public_key(@new_resource.key, @new_resource.content)
         else
-         fail 'Supported types: [private, public]'
+         fail 'Supported types: [:private, :public]'
         end
       rescue Rundeck::Error::Forbidden
         fail "Forbidden access to #{client.endpoint} with api token '#{client.api_token}'"
