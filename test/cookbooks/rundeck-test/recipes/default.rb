@@ -18,6 +18,17 @@ rundeck_server_project 'dummy-project' do
       'config.timeout' => 30
     }
   ]
+  scm_import('config.strictHostKeyChecking' => 'no')
+  scm_export('config.strictHostKeyChecking' => 'no')
+  nodes [{ 'name' => 'localhost',
+       'description' => 'localhost',
+       'tags' => '',
+       'hostname' => 'localhost',
+       'osArch' => 'amd64',
+       'osFamily' => 'unix',
+       'osName' => 'Linux',
+       'osVersion' => '3.10.0-327.el7.x86_64' },
+      ]
 end
 
 # Create a dummy job
@@ -51,6 +62,17 @@ rundeck_server_project 'Test' do
       'config.timeout' => 30
     }
   ]
+  scm_import('config.strictHostKeyChecking' => 'no')
+  scm_export('config.strictHostKeyChecking' => 'no')
+  nodes [{ 'name' => 'localhost',
+       'description' => 'localhost',
+       'tags' => '',
+       'hostname' => 'localhost',
+       'osArch' => 'amd64',
+       'osFamily' => 'unix',
+       'osName' => 'Linux',
+       'osVersion' => '3.10.0-327.el7.x86_64' },
+      ]
 end
 
 # Generalised job import

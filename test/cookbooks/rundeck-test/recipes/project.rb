@@ -8,6 +8,15 @@ rundeck_server_project 'test-project-ssh' do
       'config.timeout' => 30
     }
   ]
+  nodes [{ 'name' => 'localhost',
+       'description' => 'localhost',
+       'tags' => '',
+       'hostname' => 'localhost',
+       'osArch' => 'amd64',
+       'osFamily' => 'unix',
+       'osName' => 'Linux',
+       'osVersion' => '3.10.0-327.el7.x86_64' },
+      ]
 end
 
 rundeck_server_project 'test-project-custom' do
@@ -29,4 +38,13 @@ rundeck_server_project 'test-project-custom' do
   })
   scm_import('config.strictHostKeyChecking' => 'no')
   scm_export('config.strictHostKeyChecking' => 'no')
+  nodes [{ 'name' => 'localhost',
+       'description' => 'localhost',
+       'tags' => '',
+       'hostname' => 'localhost',
+       'osArch' => 'amd64',
+       'osFamily' => 'unix',
+       'osName' => 'Linux',
+       'osVersion' => '3.10.0-327.el7.x86_64' },
+      ]
 end
