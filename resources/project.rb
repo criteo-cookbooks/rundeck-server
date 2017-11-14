@@ -64,7 +64,7 @@ project provider configures a rundeck project
 =end
 
 # <> @property name Name of the project
-property :name,
+property :project_name,
           kind_of: String,
           name_property: true,
           regex: /^[-_+.a-zA-Z0-9]+$/
@@ -123,7 +123,7 @@ property :cookbook,
 
 action :create do
   %w(etc var).each do |d|
-    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, d) do
+    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name, d) do
       user  'rundeck'
       group 'rundeck'
       mode '0770'
@@ -133,7 +133,7 @@ action :create do
 
   properties = {}
   properties.merge!(new_resource.properties)
-  properties['project.name'] = new_resource.name
+  properties['project.name'] = new_resource.project_name
 
   executor = new_resource.executor
   if executor.is_a? Symbol
@@ -170,7 +170,7 @@ action :create do
   # configure scm_import
   if new_resource.scm_import
     type = 'import'
-    scm = scm_config(type, new_resource.name)
+    scm = scm_config(type, new_resource.project_name)
     scm['scm.import.config.useFilePattern'] = true
     scm['scm.import.config.filePattern'] = '.*\\\.yaml'
   end
@@ -180,13 +180,13 @@ action :create do
       scm["scm.#{type}.#{k}"] = v
     end
 
-    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'scm') do
+    directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name, 'scm') do
       user     'rundeck'
       group    'rundeck'
       mode     '0770'
     end
 
-    template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', "scm-#{type}.properties") do
+    template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name, 'etc', "scm-#{type}.properties") do
       source   'properties.erb'
       user     'rundeck'
       group    'rundeck'
@@ -200,11 +200,11 @@ action :create do
     source.each do |k, v|
       properties["resources.source.#{i + 1}.#{k}"] = v
     end
-    properties["resources.source.#{i + 1}.config.file"] = ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'resources.xml')
+    properties["resources.source.#{i + 1}.config.file"] = ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name, 'etc', 'resources.xml')
   end
   properties['service.FileCopier.default.provider'] = 'jsch-scp'
 
-  template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'project.properties') do
+  template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name, 'etc', 'project.properties') do
     source   'properties.erb'
     user     'rundeck'
     group    'rundeck'
@@ -213,7 +213,7 @@ action :create do
     variables(properties: properties)
   end
 
-  template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name, 'etc', 'resources.xml') do
+  template ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name, 'etc', 'resources.xml') do
     source   'resources.xml.erb'
     user     'rundeck'
     group    'rundeck'
@@ -224,7 +224,7 @@ action :create do
 end
 
 action :delete do
-  directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.name) do
+  directory ::File.join(node['rundeck_server']['datadir'], 'projects', new_resource.project_name) do
     recursive true
     action :delete
   end

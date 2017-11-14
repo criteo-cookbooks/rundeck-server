@@ -26,7 +26,7 @@ Manage rundeck jobs through rundeck api
 =end
 
 # <> @property name Name of the job, will be used to identify the job when interacting with rundeck.
-property :name,      name_property:  true, regex: /^[-_+.a-zA-Z0-9() ]+$/
+property :job_name,      name_property:  true, regex: /^[-_+.a-zA-Z0-9() ]+$/
 # <> @property project Project in which the job will be defined
 property :project,   kind_of: String, required: true
 # <> @property config Job configuration, it is a hash version of yaml output from rundeck api
@@ -49,12 +49,12 @@ action :create do
   require 'yaml'
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
-  job = get_job(client, @current_resource.project, @current_resource.name, job_group(@new_resource))
+  job = get_job(client, @current_resource.project, @current_resource.job_name, job_group(@new_resource))
 
   updated_job = stringify(@new_resource.config.dup)
 
   # hydrate updated_job
-  updated_job['name']    ||= @current_resource.name
+  updated_job['name']    ||= @current_resource.job_name
   updated_job['project'] ||= @current_resource.project
   updated_job['uuid']    ||= job['uuid'] if job
 
@@ -78,7 +78,7 @@ action :create do
     # encode & in job config
     job_yaml = job_yaml.gsub(/&/, '%26')
 
-    converge_by "#{action_name} job #{@current_resource.project}/#{@current_resource.name}" do
+    converge_by "#{action_name} job #{@current_resource.project}/#{@current_resource.job_name}" do
       # dupeOption allow us to update jobs (default is create, which fails)
       response = client.import_jobs(job_yaml, 'yaml', opts.merge(query: { 'dupeOption' => 'update' }))
       Chef::Log.debug('Result: ' + response.inspect)
@@ -91,10 +91,10 @@ action :delete do
   require 'rundeck'
 
   client = Rundeck.client(endpoint: @new_resource.endpoint, api_token: @new_resource.api_token)
-  job = get_job(client, @current_resource.project, @current_resource.name, job_group(@new_resource))
+  job = get_job(client, @current_resource.project, @current_resource.job_name, job_group(@new_resource))
 
   if job
-    converge_by "delete job #{@current_resource.project}/#{@current_resource.name}" do
+    converge_by "delete job #{@current_resource.project}/#{@current_resource.job_name}" do
       client.delete_job(job['id'], opts)
     end
   else
