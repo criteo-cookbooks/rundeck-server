@@ -185,6 +185,27 @@ project provider configures a rundeck project
         'config.timeout'  => 30,
         'config.cache'    => true,
       }])
+      scm_import(
+        'config.strictHostKeyChecking' => 'no',
+        'roles.0' => myrole,
+        'roles.count' => 1,
+        'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
+        'trackedItems.count' => 0,
+        'config.sshPrivateKeyPath' => 'keys/mykey')
+      scm_export('config.strictHostKeyChecking' => 'no',
+        'roles.0' => myrole,
+        'roles.count' => 1,
+        'config.url' => 'git@github.com:myaccount/rundeck-jobs.git',
+        'config.sshPrivateKeyPath' => 'keys/mykey')
+      nodes [{'name' => 'node1',
+        'description' => 'node1',
+        'tags' => '',
+        'hostname' => 'node1.internal',
+        'osArch' => 'amd64',
+        'osFamily' => 'unix',
+        'osName' => 'Linux',
+        'osVersion' => '3.10.0-327.el7.x86_64'}
+      ]
      end
 
 Mysql conf example
