@@ -46,7 +46,7 @@ default['rundeck_server']['plugins']['winrm']['url'] = 'https://github.com/runde
 # ['key'] = boolean  maps to -key if boolean is true
 #
 # System properties (D prefix)
-default['rundeck_server']['jvm']['Drundeck.jaaslogin']               = 'true'
+default['rundeck_server']['jvm']['Drundeck.jaaslogin']               = true
 default['rundeck_server']['jvm']['Dloginmodule.name']                = 'RDpropertyfilelogin'
 default['rundeck_server']['jvm']['Drdeck.config']                    = node['rundeck_server']['confdir']
 default['rundeck_server']['jvm']['Drundeck.server.configDir']        = node['rundeck_server']['confdir']
@@ -72,15 +72,13 @@ default['rundeck_server']['jvm']['Xmx1024m']       = true
 default['rundeck_server']['jvm']['Xms256m']        = true
 default['rundeck_server']['jvm']['server']         = true
 
-# <> Quartz job threadCount
-default['rundeck_server']['threadcount'] = 10
-# see http://rundeck.org/docs/administration/tuning-rundeck.html#quartz-job-threadcount
-
 # rundeck-config.properties configuration
 default['rundeck_server']['rundeck-config.properties']['loglevel.default'] = 'INFO'
 default['rundeck_server']['rundeck-config.properties']['rdeck.base']       = node['rundeck_server']['basedir']
 default['rundeck_server']['rundeck-config.properties']['rss.enabled']      = false
 default['rundeck_server']['rundeck-config.properties']['grails.serverURL'] = 'http://localhost:4440'
+# see http://rundeck.org/docs/administration/tuning-rundeck.html#quartz-job-threadcount
+default['rundeck_server']['rundeck-config.properties']['quartz.props.threadPool.threadCount'] = 10
 # see http://www.h2database.com/html/changelog.html (Starting with Version 1.4.177 Beta)
 # Fixes implicit relative path usage
 default['rundeck_server']['rundeck-config.properties']['dataSource.url']   = 'jdbc:h2:file:~/grailsh2'

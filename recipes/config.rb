@@ -49,15 +49,6 @@ template ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properti
   variables(properties: node['rundeck_server']['rundeck-config.properties'])
 end
 
-# Configure thread pool
-file 'rundeck-quartz-properties' do
-  path    "#{node['rundeck_server']['basedir']}/exp/webapp/WEB-INF/classes/quartz.properties"
-  content "org.quartz.threadPool.threadCount = #{node['rundeck_server']['threadcount']}\n"
-  owner   'rundeck'
-  group   'rundeck'
-  mode    '0644'
-end
-
 template 'rundeck-profile' do
   path     ::File.join(node['rundeck_server']['confdir'], 'profile')
   source   'profile.erb'
