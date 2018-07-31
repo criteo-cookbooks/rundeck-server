@@ -33,6 +33,12 @@ default['rundeck_server']['repo'] = 'http://dl.bintray.com/rundeck/rundeck-rpm/'
 # <> Plugin list to install. Type is { 'pluginname' => { 'url' => URL } }
 default['rundeck_server']['plugins']['winrm']['url'] = 'https://github.com/rundeck-plugins/rundeck-winrm-plugin/releases/download/v1.2/rundeck-winrm-plugin-1.2.jar'
 
+
+# default['rundeck_server']['sysconfig']['RDECK_INSTALL'] = node['rundeck_server']['basedir']
+# default['rundeck_server']['sysconfig']['RDECK_BASE'] = node['rundeck_server']['basedir']
+# default['rundeck_server']['sysconfig']['RDECK_CONFIG'] = node['rundeck_server']['confdir']
+# default['rundeck_server']['sysconfig']['RDECK_CONFIG_FILE'] = ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properties')
+# default['rundeck_server']['sysconfig']['RDECK_SERVER_DATA'] =
 # JVM configuration
 #
 # Option mapping rules
@@ -40,6 +46,7 @@ default['rundeck_server']['plugins']['winrm']['url'] = 'https://github.com/runde
 # ['key'] = boolean  maps to -key if boolean is true
 #
 # System properties (D prefix)
+default['rundeck_server']['jvm']['Drundeck.jaaslogin']               = 'true'
 default['rundeck_server']['jvm']['Dloginmodule.name']                = 'RDpropertyfilelogin'
 default['rundeck_server']['jvm']['Drdeck.config']                    = node['rundeck_server']['confdir']
 default['rundeck_server']['jvm']['Drundeck.server.configDir']        = node['rundeck_server']['confdir']

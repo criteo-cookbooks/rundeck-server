@@ -8,6 +8,7 @@ Installs rundeck and configure as needed
 
 * Chef >= 12.1.0
 * Centos
+* Red Hat
 
 ## Cookbooks:
 
@@ -30,6 +31,8 @@ Name | Description | Default
 * `node['rundeck_server']['session_timeout']` | session timeout in the UI (in minutes). |Defaults to `"30"`.
 * `node['rundeck_server']['repo']` | Repository containing the rundeck package. |Defaults to `"http://dl.bintray.com/rundeck/rundeck-rpm/"`.
 * `node['rundeck_server']['plugins']['winrm']['url']` | Plugin list to install. Type is { 'pluginname' => { 'url' => URL } }. |Defaults to `"https://github.com/rundeck-plugins/rundeck-winrm-plugin/releases/download/v1.2/rundeck-winrm-plugin-1.2.jar"`.
+
+
 * `node['rundeck_server']['jvm']['Dloginmodule.name']` |  |Defaults to `"RDpropertyfilelogin"`.
 * `node['rundeck_server']['jvm']['Drdeck.config']` |  |Defaults to `"node['rundeck_server']['confdir']"`.
 * `node['rundeck_server']['jvm']['Drundeck.server.configDir']` |  |Defaults to `"node['rundeck_server']['confdir']"`.
@@ -48,6 +51,8 @@ Name | Description | Default
 * `node['rundeck_server']['jvm']['Xmx1024m']` |  |Defaults to `"true"`.
 * `node['rundeck_server']['jvm']['Xms256m']` |  |Defaults to `"true"`.
 * `node['rundeck_server']['jvm']['server']` |  |Defaults to `"true"`.
+
+
 * `node['rundeck_server']['threadcount']` | Quartz job threadCount. |Defaults to `"10"`.
 * `node['rundeck_server']['rundeck-config.properties']['loglevel.default']` |  |Defaults to `"INFO"`.
 * `node['rundeck_server']['rundeck-config.properties']['dataSource.url']` | Default database URL |Defaults to `jdbc:h2:file:~/grailsh2`.
