@@ -33,44 +33,45 @@ default['rundeck_server']['repo'] = 'http://dl.bintray.com/rundeck/rundeck-rpm/'
 # <> Plugin list to install. Type is { 'pluginname' => { 'url' => URL } }
 default['rundeck_server']['plugins']['winrm']['url'] = 'https://github.com/rundeck-plugins/rundeck-winrm-plugin/releases/download/v1.2/rundeck-winrm-plugin-1.2.jar'
 
-
-# default['rundeck_server']['sysconfig']['RDECK_INSTALL'] = node['rundeck_server']['basedir']
-# default['rundeck_server']['sysconfig']['RDECK_BASE'] = node['rundeck_server']['basedir']
-# default['rundeck_server']['sysconfig']['RDECK_CONFIG'] = node['rundeck_server']['confdir']
-# default['rundeck_server']['sysconfig']['RDECK_CONFIG_FILE'] = ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properties')
-# default['rundeck_server']['sysconfig']['RDECK_SERVER_DATA'] =
 # JVM configuration
 #
 # Option mapping rules
 # ['key'] = 'string' maps to -key=string
 # ['key'] = boolean  maps to -key if boolean is true
 #
-# System properties (D prefix)
-default['rundeck_server']['jvm']['Drundeck.jaaslogin']               = true
-default['rundeck_server']['jvm']['Dloginmodule.name']                = 'RDpropertyfilelogin'
-default['rundeck_server']['jvm']['Drdeck.config']                    = node['rundeck_server']['confdir']
-default['rundeck_server']['jvm']['Drundeck.server.configDir']        = node['rundeck_server']['confdir']
-default['rundeck_server']['jvm']['Drundeck.server.serverDir']        = node['rundeck_server']['basedir']
-# Default is the directory containing the launcher jar
-default['rundeck_server']['jvm']['Drdeck.base']                      = node['rundeck_server']['basedir']
-# <> Address/hostname to listen on
-default['rundeck_server']['jvm']['Dserver.http.host']                = '0.0.0.0'
-# <> The HTTP port to use for the server
-default['rundeck_server']['jvm']['Dserver.http.port']                = '4440'
-# <> The HTTPS port to use or the server
-default['rundeck_server']['jvm']['Dserver.https.port']               = '4443'
-default['rundeck_server']['jvm']['Djava.io.tmpdir']                  = ::File.join('tmp', 'rundeck')
-# <> Path to server datastore dir
-default['rundeck_server']['jvm']['Dserver.datastore.path']           = ::File.join(node['rundeck_server']['basedir'], 'data')
-default['rundeck_server']['jvm']['Djava.security.auth.login.config'] = ::File.join(node['rundeck_server']['confdir'], 'jaas-loginmodule.conf')
-default['rundeck_server']['jvm']['Drdeck.projects']                  = ::File.join(node['rundeck_server']['datadir'], 'projects')
-default['rundeck_server']['jvm']['Drdeck.runlogs']                   = ::File.join(node['rundeck_server']['basedir'], 'logs')
-default['rundeck_server']['jvm']['Drundeck.config.location']         = ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properties')
 # Extension options (X prefix)
-default['rundeck_server']['jvm']['XX:MaxPermSize'] = '256m'
-default['rundeck_server']['jvm']['Xmx1024m']       = true
-default['rundeck_server']['jvm']['Xms256m']        = true
-default['rundeck_server']['jvm']['server']         = true
+default['rundeck_server']['jvm']['XX:MaxMetaspaceSize'] = '256m'
+default['rundeck_server']['jvm']['Xmx1024m']            = true
+default['rundeck_server']['jvm']['Xms256m']             = true
+default['rundeck_server']['jvm']['server']              = true
+
+jvm_line = ''
+
+default['rundeck_server']['jvm'].sort.each do |key, value|
+  if value
+    jvm_line << "-#{key}"
+    jvm_line << "=#{value}" if value.is_a? String
+    jvm_line << ' '
+  end
+end
+
+default['rundeck_server']['sysconfig']['RDECK_INSTALL'] = node['rundeck_server']['basedir']
+default['rundeck_server']['sysconfig']['RDECK_BASE'] = node['rundeck_server']['basedir']
+default['rundeck_server']['sysconfig']['RDECK_CONFIG'] = node['rundeck_server']['confdir']
+default['rundeck_server']['sysconfig']['RDECK_CONFIG_FILE'] = ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properties')
+default['rundeck_server']['sysconfig']['RDECK_SERVER_DATA'] = ::File.join(node['rundeck_server']['basedir'], 'data')
+default['rundeck_server']['sysconfig']['RDECK_PROJECTS'] = ::File.join(node['rundeck_server']['datadir'], 'projects')
+default['rundeck_server']['sysconfig']['RUNDECK_TEMPDIR'] = ::File.join('tmp', 'rundeck')
+default['rundeck_server']['sysconfig']['RUNDECK_WORKDIR'] = ::File.join(node['rundeck_server']['basedir'], 'work')
+default['rundeck_server']['sysconfig']['RUNDECK_LOGDIR'] = ::File.join(node['rundeck_server']['basedir'], 'logs')
+default['rundeck_server']['sysconfig']['RDECK_JVM_SETTINGS'] = jvm_line
+default['rundeck_server']['sysconfig']['RDECK_TRUSTSTORE_FILE'] = ::File.join(node['rundeck_server']['confdir'], 'ssl', 'truststore')
+default['rundeck_server']['sysconfig']['RDECK_TRUSTSTORE_TYPE'] = 'jks'
+default['rundeck_server']['sysconfig']['JAAS_CONF'] = ::File.join(node['rundeck_server']['confdir'], 'jaas-loginmodule.conf')
+default['rundeck_server']['sysconfig']['LOGIN_MODULE'] = 'RDpropertyfilelogin'
+default['rundeck_server']['sysconfig']['JAAS_LOGIN'] = 'true'
+default['rundeck_server']['sysconfig']['RDECK_HTTP_PORT'] = '4440'
+default['rundeck_server']['sysconfig']['RDECK_HTTPS_PORT'] = '4443'
 
 # rundeck-config.properties configuration
 default['rundeck_server']['rundeck-config.properties']['loglevel.default'] = 'INFO'

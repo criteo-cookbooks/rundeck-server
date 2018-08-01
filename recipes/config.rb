@@ -50,14 +50,13 @@ template ::File.join(node['rundeck_server']['confdir'], 'rundeck-config.properti
 end
 
 template 'rundeck-profile' do
-  path     ::File.join(node['rundeck_server']['confdir'], 'profile')
-  source   'profile.erb'
+  path     '/etc/sysconfig/rundeckd'
+  source   'sysconfig/rundeckd.erb'
   owner    'rundeck'
   group    'rundeck'
   mode     '0644'
   sensitive true
-  variables(basedir: node['rundeck_server']['basedir'],
-            jvm:     node['rundeck_server']['jvm'])
+  variables(sysconfig: node['rundeck_server']['sysconfig'])
   notifies :restart, 'service[rundeckd]', :delayed
 end
 
