@@ -74,7 +74,7 @@ default['rundeck_server']['sysconfig']['RDECK_HTTP_PORT'] = '4440'
 default['rundeck_server']['sysconfig']['RDECK_HTTPS_PORT'] = '4443'
 
 # rundeck-config.properties configuration
-default['rundeck_server']['rundeck-config.properties']['log4j.config.file'] = ::File.join(node['rundeck_server']['confdir'], 'log4j.properties')
+default['rundeck_server']['rundeck-config.properties']['rundeck.log4j.config.file'] = ::File.join(node['rundeck_server']['confdir'], 'log4j.properties')
 default['rundeck_server']['rundeck-config.properties']['loglevel.default'] = 'INFO'
 default['rundeck_server']['rundeck-config.properties']['rdeck.base']       = node['rundeck_server']['basedir']
 default['rundeck_server']['rundeck-config.properties']['rss.enabled']      = false
