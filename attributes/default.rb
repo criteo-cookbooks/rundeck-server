@@ -83,7 +83,7 @@ default['rundeck_server']['rundeck-config.properties']['quartz.props.threadPool.
 # see http://www.h2database.com/html/changelog.html (Starting with Version 1.4.177 Beta)
 # Fixes implicit relative path usage
 default['rundeck_server']['rundeck-config.properties']['dataSource.url']   = 'jdbc:h2:file:~/grailsh2'
-default['rundeck_server']['rundeck.config.properties']['rundeck.log4j.config.file'] = ::File.join(node['rundeck_server']['confdir'], 'log4j.properties'
+default['rundeck_server']['rundeck.config.properties']['rundeck.log4j.config.file'] = ::File.join(node['rundeck_server']['confdir'], 'log4j.properties')
 # rundeck-config.framework configuration
 default['rundeck_server']['rundeck-config.framework']['framework.server.name']      = 'localhost'
 default['rundeck_server']['rundeck-config.framework']['framework.server.hostname']  = 'localhost'
