@@ -74,6 +74,7 @@ default['rundeck_server']['sysconfig']['RDECK_HTTP_PORT'] = '4440'
 default['rundeck_server']['sysconfig']['RDECK_HTTPS_PORT'] = '4443'
 
 # rundeck-config.properties configuration
+default['rundeck_server']['rundeck-config.properties']['log4j.config.file'] = ::File.join(node['rundeck_server']['confdir'], 'log4j.properties')
 default['rundeck_server']['rundeck-config.properties']['loglevel.default'] = 'INFO'
 default['rundeck_server']['rundeck-config.properties']['rdeck.base']       = node['rundeck_server']['basedir']
 default['rundeck_server']['rundeck-config.properties']['rss.enabled']      = false
@@ -83,7 +84,6 @@ default['rundeck_server']['rundeck-config.properties']['quartz.props.threadPool.
 # see http://www.h2database.com/html/changelog.html (Starting with Version 1.4.177 Beta)
 # Fixes implicit relative path usage
 default['rundeck_server']['rundeck-config.properties']['dataSource.url']   = 'jdbc:h2:file:~/grailsh2'
-default['rundeck_server']['rundeck.config.properties']['rundeck.log4j.config.file'] = ::File.join(node['rundeck_server']['confdir'], 'log4j.properties')
 # rundeck-config.framework configuration
 default['rundeck_server']['rundeck-config.framework']['framework.server.name']      = 'localhost'
 default['rundeck_server']['rundeck-config.framework']['framework.server.hostname']  = 'localhost'
