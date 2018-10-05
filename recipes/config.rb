@@ -12,7 +12,6 @@ unless node['rundeck_server']['plugins'].nil?
       mode     '0644'
       checksum source['checksum'] if source['checksum']
       backup   false
-      notifies :restart, 'service[rundeckd]', :delayed
     end
   end
 end
