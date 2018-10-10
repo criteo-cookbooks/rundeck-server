@@ -65,13 +65,13 @@ project provider configures a rundeck project
 
 # <> @property name Name of the project
 property :project_name,
-          kind_of: String,
+          String,
           name_property: true,
           regex: /^[-_+.a-zA-Z0-9]+$/
 
 # <> @property executor Executor name + configuration. Could be a plain string (ssh) or complex hash configuration.
 property :executor,
-          kind_of: [Symbol, Hash],
+          [Symbol, Hash],
           default: :ssh,
           callbacks: ({
             must_contain_provider: lambda do |executor|
@@ -84,23 +84,23 @@ property :executor,
 
 # <> @property scm-import setting of the project
 property :scm_import,
-          kind_of: Hash,
+          Hash,
           required: false
 
 # <> @property scm-export setting of the project
 property :scm_export,
-          kind_of: Hash,
+          Hash,
           required: false
 
 # <> @property nodes setting of the project
 property :nodes,
-          kind_of: Array,
+          Array,
           required: false,
           default: []
 
 # <> @property sources List of node sources
 property :sources,
-          kind_of: Array,
+          Array,
           required: true,
           callbacks: ({
             must_be_an_array_of_hashes: lambda do |sources|
@@ -113,12 +113,12 @@ property :sources,
 
 # <> @property properties Hash of project properties
 property :properties,
-          kind_of: Hash,
+          Hash,
           required: false,
           default: {}
 
 property :cookbook,
-          kind_of: String,
+          String,
           default: 'rundeck-server'
 
 action :create do
