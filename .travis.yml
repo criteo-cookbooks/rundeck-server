@@ -3,7 +3,9 @@ rvm:
 - 2.4.0
 deploy:
   skip_cleanup: true
-  edge: true
+  edge:
+    source: criteo-forks/dpl
+    branch: chef_ruby2
   provider: chef-supermarket
   user_id: criteo
   cookbook_category: Process Management
