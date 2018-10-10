@@ -28,13 +28,13 @@ Manage rundeck jobs through rundeck api
 # <> @property name Name of the job, will be used to identify the job when interacting with rundeck.
 property :job_name,      name_property:  true, regex: /^[-_+.a-zA-Z0-9() ]+$/
 # <> @property project Project in which the job will be defined
-property :project,   kind_of: String, required: true
+property :project,   String, required: true
 # <> @property config Job configuration, it is a hash version of yaml output from rundeck api
-property :config,    kind_of: Hash,   default: {}
+property :config,    Hash,   default: {}
 # <> @property endpoint
-property :endpoint,  kind_of: String, default: 'https://localhost'
+property :endpoint,  String, default: 'https://localhost'
 # <> @property api_token Token used to interact with the api. See rundeck documentation to generate a token.
-property :api_token, kind_of: String, required: true
+property :api_token, String, required: true
 
 def job_group(new_resource)
   new_resource.config['group'] || new_resource.config[:group]

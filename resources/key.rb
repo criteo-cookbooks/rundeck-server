@@ -18,15 +18,15 @@ Manage rundeck key storage through rundeck api
 =end
 
 # <> @property path to key
-property :key,    kind_of: String, name_property:  true
+property :key,       String, name_property:  true
 # <> @property type of key. Can be 'private', 'public'
-property :type,     kind_of: Symbol, required: true, default: :public, equal_to: [:public, :private]
+property :type,      Symbol, required: true, default: :public, equal_to: [:public, :private]
 # <> @property key data
-property :content,    kind_of: String, required: false
+property :content,   String, required: false
 # <> @property endpoint
-property :endpoint,  kind_of: String, default: 'http://127.0.0.1:4440'
+property :endpoint,  String, default: 'http://127.0.0.1:4440'
 # <> @property api_token Token used to interact with the api. See rundeck documentation to generate a token.
-property :api_token, kind_of: String, required: true
+property :api_token, String, required: true
 
 action :create do
   require 'rundeck'
