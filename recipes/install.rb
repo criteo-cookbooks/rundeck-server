@@ -12,6 +12,7 @@ yum_repository 'rundeck' do
   gpgkey node['rundeck_server']['yum']['gpgkey']
   enabled node['rundeck_server']['yum']['enabled']
   action node['rundeck_server']['yum']['action']
+  options node['rundeck_server']['yum']['options'] unless node['rundeck_server']['yum']['options'].nil?
 end
 
 # Install Rundeck packages
